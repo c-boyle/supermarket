@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private CharacterMovement movement;
+    [SerializeField] private ItemContainer hands;
     private PlayerControls controls;
     private bool activeMovementInput = false;
 

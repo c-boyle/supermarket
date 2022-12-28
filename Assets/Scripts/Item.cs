@@ -6,5 +6,5 @@ public class Item : MonoBehaviour
 {
     [SerializeField] private ItemData data;
 
-    public ItemContainer Container { get; set; } = null;
+    [field: SerializeField] public ItemContainer Container { get; set; }
 }

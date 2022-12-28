@@ -8,28 +8,30 @@ public class ItemContainer : MonoBehaviour
 
     public void AddItem(Item item, int slot = 0)
     {
-        item.Container.RemoveItem(item);
+        var removedSlot = item.Container.RemoveItem(item);
         if (containerSlots[slot].ContainedItem != null)
         {
-            item.Container.AddItem(containerSlots[slot].ContainedItem, slot);
+            item.Container.AddItem(containerSlots[slot].ContainedItem, removedSlot);
         }
         containerSlots[slot].ContainedItem = item;
         item.Container = this;
-        item.transform.SetParent(containerSlots[slot].ContainmentPosition);
+        item.transform.SetParent(containerSlots[slot].ContainmentPosition, false);
     }
 
-    public void RemoveItem(Item item)
+    private int RemoveItem(Item item)
     {
         for (int i = 0; i < containerSlots.Count; i++)
         {
             if (containerSlots[i].ContainedItem == item)
             {
                 RemoveItem(i);
+                return i;
             }
         }
+        return -1;
     }
 
-    public void RemoveItem(int slot = 0)
+    private void RemoveItem(int slot)
     {
         containerSlots[slot].ContainedItem.Container = null;
         containerSlots[slot].ContainedItem = null;
