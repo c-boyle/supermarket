@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private CharacterController controller;
+    public void Move(Vector2 input)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var motion = new Vector3(input.x, 0f, input.y);
+        controller.SimpleMove(motion);
+        transform.forward = motion;
     }
 }
