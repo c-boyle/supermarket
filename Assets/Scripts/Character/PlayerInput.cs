@@ -15,7 +15,7 @@ public class PlayerInput : MonoBehaviour
             controls = new PlayerControls();
         }
         controls.GameControls.Move.performed += ctx => activeMovementInput = true;
-        controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; movement.Move(Vector2.zero); };
+        controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; };
         controls.GameControls.GrabDrop.performed += ctx => OnGrabDrop();
     }
 

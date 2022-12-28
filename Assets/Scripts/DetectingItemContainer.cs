@@ -12,6 +12,7 @@ public class DetectingItemContainer : ItemContainer
         {
             inColliderContainers.Add(container);
         }
+        Debug.Log("Collided with: " + other.name);
     }
 
     private void OnTriggerExit(Collider other)
@@ -20,6 +21,7 @@ public class DetectingItemContainer : ItemContainer
         {
             inColliderContainers.Remove(container);
         }
+        Debug.Log("Collision ended with: " + other.name);
     }
 
     public void PickupItem()
