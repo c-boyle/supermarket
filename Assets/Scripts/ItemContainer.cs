@@ -5,6 +5,19 @@ using UnityEngine;
 public class ItemContainer : MonoBehaviour
 {
     [SerializeField] private List<ContainerSlot> containerSlots = new();
+    public int ContainedCount { 
+        get { 
+            int count = 0;
+            foreach (ContainerSlot slot in containerSlots)
+            {
+                if (slot.ContainedItem != null)
+                {
+                    count++;
+                }
+            }
+            return count;
+        } 
+    }
 
     public void AddItem(Item item, int slot = 0)
     {
@@ -16,6 +29,11 @@ public class ItemContainer : MonoBehaviour
         containerSlots[slot].ContainedItem = item;
         item.Container = this;
         item.transform.SetParent(containerSlots[slot].ContainmentPosition, false);
+    }
+
+    public void TakeItem(ItemContainer itemContainer, int slot = 0)
+    {
+        AddItem(itemContainer.containerSlots[slot].ContainedItem);
     }
 
     private int RemoveItem(Item item)
