@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
-{
-    [SerializeField] private ItemData data;
-
-    [field: SerializeField] public ItemContainer Container { get; set; }
+public class Item : MonoBehaviour {
+  [SerializeField] private ItemData data;
+  [field: SerializeField] public ItemContainer ContainedBy { get; set; }
+  [field: SerializeField] public ItemContainer Container { get; set; }
+  public bool IsContainer { get => Container != null; }
 }

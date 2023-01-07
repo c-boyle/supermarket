@@ -16,17 +16,26 @@ public class ItemContainer : MonoBehaviour {
     }
   }
 
-  public void AddItem(Item item, int slot = 0) {
+  public bool AddItem(Item item) {
+    for (int i = 0; i < containerSlots.Count; i++) {
+      if (containerSlots[i].ContainedItem == null) {
+        AddItem(item, i);
+        return true;
+      } else if (containerSlots[i].ContainedItem.IsContainer && containerSlots[i].ContainedItem.Container.AddItem(item)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public void AddItem(Item item, int slot) {
     if (item == null) {
       return;
     }
-    var originalContainer = item.Container;
-    var removedSlot = item.Container.RemoveItem(item);
-    if (containerSlots[slot].ContainedItem != null) {
-      originalContainer.AddItem(containerSlots[slot].ContainedItem, removedSlot);
-    }
+    var originalContainer = item.ContainedBy;
+    var removedSlot = item.ContainedBy.RemoveItem(item);
     containerSlots[slot].ContainedItem = item;
-    item.Container = this;
+    item.ContainedBy = this;
     item.transform.SetParent(containerSlots[slot].ContainmentPosition, false);
   }
 
@@ -45,7 +54,7 @@ public class ItemContainer : MonoBehaviour {
   }
 
   private void RemoveItem(int slot) {
-    containerSlots[slot].ContainedItem.Container = null;
+    containerSlots[slot].ContainedItem.ContainedBy = null;
     containerSlots[slot].ContainedItem = null;
   }
 
