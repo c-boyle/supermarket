@@ -8,15 +8,15 @@ public class DetectingItemContainer : ItemContainer {
   private void OnTriggerEnter(Collider other) {
     if (other.gameObject.TryGetComponent(out ItemContainer container)) {
       inColliderContainers.Add(container);
+      Debug.Log("ItemContainer " + container.name + " entered container range");
     }
-    Debug.Log("Collided with: " + other.name);
   }
 
   private void OnTriggerExit(Collider other) {
     if (other.gameObject.TryGetComponent(out ItemContainer container)) {
       inColliderContainers.Remove(container);
+      Debug.Log("ItemContainer " + container.name + " exited container range");
     }
-    Debug.Log("Collision ended with: " + other.name);
   }
 
   public void PickupItem() {

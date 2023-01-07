@@ -20,9 +20,10 @@ public class ItemContainer : MonoBehaviour {
     if (item == null) {
       return;
     }
+    var originalContainer = item.Container;
     var removedSlot = item.Container.RemoveItem(item);
     if (containerSlots[slot].ContainedItem != null) {
-      item.Container.AddItem(containerSlots[slot].ContainedItem, removedSlot);
+      originalContainer.AddItem(containerSlots[slot].ContainedItem, removedSlot);
     }
     containerSlots[slot].ContainedItem = item;
     item.Container = this;
