@@ -21,15 +21,19 @@ public class DetectingItemContainer : ItemContainer {
 
   public void PickupItem() {
     foreach (ItemContainer container in inColliderContainers) {
-      TakeItem(container);
-      return;
+      if (!Contains(container)) {
+        TakeItem(container);
+        return;
+      }
     }
   }
 
   public void PutDownItem() {
     foreach (ItemContainer container in inColliderContainers) {
-      container.TakeItem(this);
-      return;
+      if (!Contains(container)) {
+        container.TakeItem(this);
+        return;
+      }
     }
   }
 }

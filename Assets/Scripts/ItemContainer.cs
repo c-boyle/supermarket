@@ -58,6 +58,16 @@ public class ItemContainer : MonoBehaviour {
     containerSlots[slot].ContainedItem = null;
   }
 
+  protected bool Contains(ItemContainer itemContainer) {
+    foreach (var slot in containerSlots) {
+      bool slotContainsItem = slot.ContainedItem != null && (slot.ContainedItem.Container == itemContainer || (slot.ContainedItem.IsContainer && slot.ContainedItem.Container.Contains(itemContainer)));
+      if (slotContainsItem) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   [System.Serializable]
   private class ContainerSlot {
     [field: SerializeField] public Item ContainedItem { get; set; }
