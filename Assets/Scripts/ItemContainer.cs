@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemContainer : MonoBehaviour {
-  [SerializeField] private AcceptedItemsData acceptedItemsData = new();
+  [SerializeField] private AcceptedItemsData acceptedItemsData;
   [SerializeField] private List<ContainerSlot> containerSlots = new();
   public int ContainedCount {
     get {

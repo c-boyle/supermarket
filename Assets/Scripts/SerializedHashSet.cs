@@ -33,6 +33,5 @@ public class SerializedHashSet<T> : ISerializationCallbackReceiver {
 
   public void OnAfterDeserialize() {
     changesOccured = true;
-    Debug.Log("Change Occured");
   }
 }
