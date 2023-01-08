@@ -18,7 +18,7 @@ public class ItemContainer : MonoBehaviour {
   }
 
   public bool AddItem(Item item) {
-    if (acceptedItemsData.AcceptedItems.Contains(item.Data)) {
+    if (AcceptsItem(item)) {
       for (int i = 0; i < containerSlots.Count; i++) {
         if (containerSlots[i].ContainedItem == null) {
           AddItem(item, i);
@@ -32,7 +32,7 @@ public class ItemContainer : MonoBehaviour {
   }
 
   public void AddItem(Item item, int slot) {
-    if (item == null || !acceptedItemsData.AcceptedItems.Contains(item.Data)) {
+    if (!AcceptsItem(item)) {
       return;
     }
     var originalContainer = item.ContainedBy;
@@ -44,6 +44,10 @@ public class ItemContainer : MonoBehaviour {
 
   public void TakeItem(ItemContainer itemContainer, int slot = 0) {
     AddItem(itemContainer.containerSlots[slot].ContainedItem);
+  }
+
+  private bool AcceptsItem(Item item) {
+    return item != null && acceptedItemsData.AcceptedItems.Contains(item.Data);
   }
 
   private int RemoveItem(Item item) {
