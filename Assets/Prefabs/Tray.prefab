@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9ca1d5fb15b4149ab77881907f5d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedItemsData: {fileID: 11400000, guid: 3272f2af87adad64d83d141da19e5e10, type: 2}
   containerSlots:
   - <ContainedItem>k__BackingField: {fileID: 0}
     <ContainmentPosition>k__BackingField: {fileID: 5222358801343879188}

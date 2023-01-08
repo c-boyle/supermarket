@@ -7,4 +7,5 @@ public class Item : MonoBehaviour {
   [field: SerializeField] public ItemContainer ContainedBy { get; set; }
   [field: SerializeField] public ItemContainer Container { get; set; }
   public bool IsContainer { get => Container != null; }
+  public ItemData Data { get => data; }
 }

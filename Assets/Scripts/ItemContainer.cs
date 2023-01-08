@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemContainer : MonoBehaviour {
+  [SerializeField] private AcceptedItemsData acceptedItemsData = new();
   [SerializeField] private List<ContainerSlot> containerSlots = new();
   public int ContainedCount {
     get {
@@ -17,19 +18,21 @@ public class ItemContainer : MonoBehaviour {
   }
 
   public bool AddItem(Item item) {
-    for (int i = 0; i < containerSlots.Count; i++) {
-      if (containerSlots[i].ContainedItem == null) {
-        AddItem(item, i);
-        return true;
-      } else if (containerSlots[i].ContainedItem.IsContainer && containerSlots[i].ContainedItem.Container.AddItem(item)) {
-        return true;
+    if (acceptedItemsData.AcceptedItems.Contains(item.Data)) {
+      for (int i = 0; i < containerSlots.Count; i++) {
+        if (containerSlots[i].ContainedItem == null) {
+          AddItem(item, i);
+          return true;
+        } else if (containerSlots[i].ContainedItem.IsContainer && containerSlots[i].ContainedItem.Container.AddItem(item)) {
+          return true;
+        }
       }
     }
     return false;
   }
 
   public void AddItem(Item item, int slot) {
-    if (item == null) {
+    if (item == null || !acceptedItemsData.AcceptedItems.Contains(item.Data)) {
       return;
     }
     var originalContainer = item.ContainedBy;
