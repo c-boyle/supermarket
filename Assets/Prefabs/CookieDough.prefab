@@ -143,5 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: af6248f5a7243a54db15408c3a530d5f, type: 2}
+  <Highlighting>k__BackingField:
+    renderersToHighlight:
+    - {fileID: 1712640681862573840}
   <ContainedBy>k__BackingField: {fileID: 0}
   <Container>k__BackingField: {fileID: 0}

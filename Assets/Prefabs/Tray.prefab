@@ -132,6 +132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: f0e111bcc3ee66a478a36454bbdec48d, type: 2}
+  <Highlighting>k__BackingField:
+    renderersToHighlight:
+    - {fileID: 5222358802237010709}
   <ContainedBy>k__BackingField: {fileID: 0}
   <Container>k__BackingField: {fileID: 5222358802237010792}
 --- !u!114 &5222358802237010792
@@ -154,6 +157,9 @@ MonoBehaviour:
     <ContainmentPosition>k__BackingField: {fileID: 5222358802602211440}
   - <ContainedItem>k__BackingField: {fileID: 0}
     <ContainmentPosition>k__BackingField: {fileID: 5222358802465450495}
+  <Highlighting>k__BackingField:
+    renderersToHighlight:
+    - {fileID: 5222358802237010709}
 --- !u!1 &5222358802465450494
 GameObject:
   m_ObjectHideFlags: 0

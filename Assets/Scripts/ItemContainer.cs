@@ -5,6 +5,8 @@ using UnityEngine;
 public class ItemContainer : MonoBehaviour {
   [SerializeField] private AcceptedItemsData acceptedItemsData;
   [SerializeField] private List<ContainerSlot> containerSlots = new();
+  [field: SerializeField] public Highlightable Highlighting { get; set; } = new();
+
   public int ContainedCount {
     get {
       int count = 0;
@@ -35,8 +37,7 @@ public class ItemContainer : MonoBehaviour {
     if (!AcceptsItem(item)) {
       return;
     }
-    var originalContainer = item.ContainedBy;
-    var removedSlot = item.ContainedBy.RemoveItem(item);
+    item.ContainedBy.RemoveItem(item);
     containerSlots[slot].ContainedItem = item;
     item.ContainedBy = this;
     item.transform.SetParent(containerSlots[slot].ContainmentPosition, false);
@@ -44,6 +45,16 @@ public class ItemContainer : MonoBehaviour {
 
   public void TakeItem(ItemContainer itemContainer, int slot = 0) {
     AddItem(itemContainer.containerSlots[slot].ContainedItem);
+  }
+
+  protected bool Contains(ItemContainer itemContainer) {
+    foreach (var slot in containerSlots) {
+      bool slotContainsItem = slot.ContainedItem != null && (slot.ContainedItem.Container == itemContainer || (slot.ContainedItem.IsContainer && slot.ContainedItem.Container.Contains(itemContainer)));
+      if (slotContainsItem) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private bool AcceptsItem(Item item) {
@@ -63,16 +74,6 @@ public class ItemContainer : MonoBehaviour {
   private void RemoveItem(int slot) {
     containerSlots[slot].ContainedItem.ContainedBy = null;
     containerSlots[slot].ContainedItem = null;
-  }
-
-  protected bool Contains(ItemContainer itemContainer) {
-    foreach (var slot in containerSlots) {
-      bool slotContainsItem = slot.ContainedItem != null && (slot.ContainedItem.Container == itemContainer || (slot.ContainedItem.IsContainer && slot.ContainedItem.Container.Contains(itemContainer)));
-      if (slotContainsItem) {
-        return true;
-      }
-    }
-    return false;
   }
 
   [System.Serializable]

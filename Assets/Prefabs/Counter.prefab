@@ -115,6 +115,9 @@ MonoBehaviour:
   containerSlots:
   - <ContainedItem>k__BackingField: {fileID: 0}
     <ContainmentPosition>k__BackingField: {fileID: 5569110378314797938}
+  <Highlighting>k__BackingField:
+    renderersToHighlight:
+    - {fileID: 5569110377161493389}
 --- !u!1 &5569110378314797937
 GameObject:
   m_ObjectHideFlags: 0
