@@ -1056,6 +1056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1350462326}
+  speed: 2
 --- !u!4 &1482714531 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5569110378314797938, guid: 2566bdcedd63096449557b4a49923622, type: 3}

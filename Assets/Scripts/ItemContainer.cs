@@ -69,14 +69,15 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
     containerSlots[slot].ContainedItem = item;
     item.ContainedBy = this;
     item.transform.SetParent(containerSlots[slot].ContainmentPosition, false);
-    if (selectedContainerSlotIndex == -1) {
+    if (containerSlots.Count > 1 && selectedContainerSlotIndex == -1) {
       selectedContainerSlotIndex = slot;
       containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = Highlighted;
     }
   }
 
-  public void TakeItem(ItemContainer itemContainer, int slot = 0) {
-    AddItem(itemContainer.containerSlots[slot].ContainedItem);
+  public void TakeItem(ItemContainer itemContainer) {
+    var itemToTake = itemContainer.containerSlots.Count > 1 ? itemContainer.containerSlots[itemContainer.selectedContainerSlotIndex].ContainedItem : itemContainer.containerSlots[0].ContainedItem;
+    AddItem(itemToTake);
   }
 
   protected bool Contains(ItemContainer itemContainer) {
