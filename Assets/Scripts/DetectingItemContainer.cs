@@ -11,9 +11,9 @@ public class DetectingItemContainer : ItemContainer {
     if (usedByPlayer && inColliderContainers.Count > 0) {
       var selectedContainer = GetSelectedContainer();
       if (mostRecentSelectedContainer != null && mostRecentSelectedContainer != selectedContainer) {
-        mostRecentSelectedContainer.Highlighting.Highlighted = false;
+        mostRecentSelectedContainer.Highlighted = false;
       }
-      selectedContainer.Highlighting.Highlighted = true;
+      selectedContainer.Highlighted = true;
       mostRecentSelectedContainer = selectedContainer;
     }
   }
@@ -23,14 +23,16 @@ public class DetectingItemContainer : ItemContainer {
     ItemContainer selectedContainer = null;
     float selectedContainerDistance = float.MaxValue;
     foreach (var container in inColliderContainers) {
-      var detectionPosition = transform.position;
-      var containerPosition = container.transform.position;
-      detectionPosition.y = 0f;
-      containerPosition.y = 0f;
-      var dist = Vector3.Distance(detectionPosition, containerPosition);
-      if (dist < selectedContainerDistance) {
-        selectedContainer = container;
-        selectedContainerDistance = dist;
+      if (!Contains(container)) {
+        var detectionPosition = transform.position;
+        var containerPosition = container.transform.position;
+        detectionPosition.y = 0f;
+        containerPosition.y = 0f;
+        var dist = Vector3.Distance(detectionPosition, containerPosition);
+        if (dist < selectedContainerDistance) {
+          selectedContainer = container;
+          selectedContainerDistance = dist;
+        }
       }
     }
     return selectedContainer;
@@ -46,7 +48,7 @@ public class DetectingItemContainer : ItemContainer {
   private void OnTriggerExit(Collider other) {
     if (other.gameObject.TryGetComponent(out ItemContainer container)) {
       if (container == mostRecentSelectedContainer) {
-        container.Highlighting.Highlighted = false;
+        container.Highlighted = false;
       }
       inColliderContainers.Remove(container);
       Debug.Log("ItemContainer " + container.name + " exited container range");
@@ -54,20 +56,16 @@ public class DetectingItemContainer : ItemContainer {
   }
 
   public void PickupItem() {
-    foreach (ItemContainer container in inColliderContainers) {
-      if (!Contains(container)) {
-        TakeItem(container);
-        return;
-      }
+    var selectedContainer = GetSelectedContainer();
+    if (selectedContainer != null) {
+      TakeItem(selectedContainer);
     }
   }
 
   public void PutDownItem() {
-    foreach (ItemContainer container in inColliderContainers) {
-      if (!Contains(container)) {
-        container.TakeItem(this);
-        return;
-      }
+    var selectedContainer = GetSelectedContainer();
+    if (selectedContainer != null) {
+      selectedContainer.TakeItem(this);
     }
   }
 }

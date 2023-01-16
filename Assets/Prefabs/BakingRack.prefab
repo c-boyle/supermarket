@@ -328,6 +328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7795920801602519272}
   - component: {fileID: 7795920801602519273}
+  - component: {fileID: 825065070442802023}
   - component: {fileID: 7795920801602519274}
   m_Layer: 0
   m_Name: BakingRack
@@ -381,24 +382,36 @@ MonoBehaviour:
     <ContainmentPosition>k__BackingField: {fileID: 7795920802402229162}
   - <ContainedItem>k__BackingField: {fileID: 0}
     <ContainmentPosition>k__BackingField: {fileID: 7795920802011357181}
-  <Highlighting>k__BackingField:
-    renderersToHighlight:
-    - {fileID: 7795920801315931487}
-    - {fileID: 7795920802118977317}
-    - {fileID: 7795920802838743840}
-    - {fileID: 7795920801285497534}
-    - {fileID: 7795920802541265080}
-    - {fileID: 7795920802318025001}
-    - {fileID: 7795920801759394431}
-    - {fileID: 7795920802743035441}
-    - {fileID: 7795920802373617922}
-    - {fileID: 7795920801394979020}
-    - {fileID: 7795920801953521608}
-    - {fileID: 7795920802905414288}
-    - {fileID: 7795920802919763303}
-    - {fileID: 7795920802605800120}
-    - {fileID: 7795920801660155260}
-    - {fileID: 7795920802957058503}
+  highlighting: {fileID: 825065070442802023}
+--- !u!114 &825065070442802023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7795920801602519279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2def2bc807b353443bfd47d6e2d1b250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderersToHighlight:
+  - {fileID: 7795920801315931487}
+  - {fileID: 7795920802118977317}
+  - {fileID: 7795920802838743840}
+  - {fileID: 7795920801285497534}
+  - {fileID: 7795920802541265080}
+  - {fileID: 7795920802318025001}
+  - {fileID: 7795920801759394431}
+  - {fileID: 7795920802743035441}
+  - {fileID: 7795920802373617922}
+  - {fileID: 7795920801394979020}
+  - {fileID: 7795920801953521608}
+  - {fileID: 7795920802905414288}
+  - {fileID: 7795920802919763303}
+  - {fileID: 7795920802605800120}
+  - {fileID: 7795920801660155260}
+  - {fileID: 7795920802957058503}
 --- !u!65 &7795920801602519274
 BoxCollider:
   m_ObjectHideFlags: 0

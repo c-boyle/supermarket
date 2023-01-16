@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Highlightable {
+public class Highlightable : MonoBehaviour, IHighlightable {
   [SerializeField] private List<Renderer> renderersToHighlight = new();
 
-  private bool _highlighted = false;
+  [SerializeField] private bool _highlighted = false;
   public bool Highlighted {
     get {
       return _highlighted;

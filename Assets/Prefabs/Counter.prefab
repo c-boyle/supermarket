@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5569110377161493389}
   - component: {fileID: 5569110377161493388}
   - component: {fileID: 5569110377161493387}
+  - component: {fileID: 2741785275467164746}
   m_Layer: 0
   m_Name: Counter
   m_TagString: Untagged
@@ -115,9 +116,21 @@ MonoBehaviour:
   containerSlots:
   - <ContainedItem>k__BackingField: {fileID: 0}
     <ContainmentPosition>k__BackingField: {fileID: 5569110378314797938}
-  <Highlighting>k__BackingField:
-    renderersToHighlight:
-    - {fileID: 5569110377161493389}
+  highlighting: {fileID: 2741785275467164746}
+--- !u!114 &2741785275467164746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5569110377161493386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2def2bc807b353443bfd47d6e2d1b250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderersToHighlight:
+  - {fileID: 5569110377161493389}
 --- !u!1 &5569110378314797937
 GameObject:
   m_ObjectHideFlags: 0

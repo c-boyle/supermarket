@@ -107,6 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1712640682303328635}
   - component: {fileID: 1712640682303328634}
+  - component: {fileID: 4790194405585867358}
   m_Layer: 0
   m_Name: CookieDough
   m_TagString: Untagged
@@ -143,8 +144,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: af6248f5a7243a54db15408c3a530d5f, type: 2}
-  <Highlighting>k__BackingField:
-    renderersToHighlight:
-    - {fileID: 1712640681862573840}
+  highlighting: {fileID: 4790194405585867358}
   <ContainedBy>k__BackingField: {fileID: 0}
   <Container>k__BackingField: {fileID: 0}
+--- !u!114 &4790194405585867358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712640682303328612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2def2bc807b353443bfd47d6e2d1b250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderersToHighlight:
+  - {fileID: 1712640681862573840}

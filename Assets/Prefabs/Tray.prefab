@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5222358802237010709}
   - component: {fileID: 5222358802237010793}
   - component: {fileID: 5222358802237010792}
+  - component: {fileID: 5466157553317576797}
   m_Layer: 0
   m_Name: Tray
   m_TagString: Untagged
@@ -132,9 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: f0e111bcc3ee66a478a36454bbdec48d, type: 2}
-  <Highlighting>k__BackingField:
-    renderersToHighlight:
-    - {fileID: 5222358802237010709}
+  highlighting: {fileID: 5466157553317576797}
   <ContainedBy>k__BackingField: {fileID: 0}
   <Container>k__BackingField: {fileID: 5222358802237010792}
 --- !u!114 &5222358802237010792
@@ -157,9 +156,21 @@ MonoBehaviour:
     <ContainmentPosition>k__BackingField: {fileID: 5222358802602211440}
   - <ContainedItem>k__BackingField: {fileID: 0}
     <ContainmentPosition>k__BackingField: {fileID: 5222358802465450495}
-  <Highlighting>k__BackingField:
-    renderersToHighlight:
-    - {fileID: 5222358802237010709}
+  highlighting: {fileID: 5466157553317576797}
+--- !u!114 &5466157553317576797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5222358802237010707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2def2bc807b353443bfd47d6e2d1b250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderersToHighlight:
+  - {fileID: 5222358802237010709}
 --- !u!1 &5222358802465450494
 GameObject:
   m_ObjectHideFlags: 0

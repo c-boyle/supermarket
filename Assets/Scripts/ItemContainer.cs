@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemContainer : MonoBehaviour {
+public class ItemContainer : MonoBehaviour, IHighlightable {
   [SerializeField] private AcceptedItemsData acceptedItemsData;
   [SerializeField] private List<ContainerSlot> containerSlots = new();
-  [field: SerializeField] public Highlightable Highlighting { get; set; } = new();
+  [SerializeField] private Highlightable highlighting;
+  private int selectedContainerSlotIndex = -1;
 
   public int ContainedCount {
     get {
@@ -16,6 +17,33 @@ public class ItemContainer : MonoBehaviour {
         }
       }
       return count;
+    }
+  }
+
+  public bool Highlighted {
+    get => highlighting != null ? highlighting.Highlighted : false;
+    set {
+      bool hasMultipleSlotsAndAnItem = containerSlots.Count > 1 && ContainedCount > 0;
+      if (Highlighted != value && hasMultipleSlotsAndAnItem) {
+        if (value) {
+          selectedContainerSlotIndex = FirstOccupiedSlotIndex;
+        }
+        if (selectedContainerSlotIndex != -1) {
+          containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = value;
+        }
+      }
+      highlighting.Highlighted = value;
+    }
+  }
+
+  private int FirstOccupiedSlotIndex {
+    get {
+      for (int i = 0; i < containerSlots.Count; i++) {
+        if (containerSlots[i].ContainedItem != null) {
+          return i;
+        }
+      }
+      return -1;
     }
   }
 
@@ -41,6 +69,10 @@ public class ItemContainer : MonoBehaviour {
     containerSlots[slot].ContainedItem = item;
     item.ContainedBy = this;
     item.transform.SetParent(containerSlots[slot].ContainmentPosition, false);
+    if (selectedContainerSlotIndex == -1) {
+      selectedContainerSlotIndex = slot;
+      containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = Highlighted;
+    }
   }
 
   public void TakeItem(ItemContainer itemContainer, int slot = 0) {
@@ -72,6 +104,12 @@ public class ItemContainer : MonoBehaviour {
   }
 
   private void RemoveItem(int slot) {
+    if (containerSlots[slot].ContainedItem != null) {
+      containerSlots[slot].ContainedItem.Highlighted = false;
+    }
+    if (selectedContainerSlotIndex == slot) {
+      selectedContainerSlotIndex = -1;
+    }
     containerSlots[slot].ContainedItem.ContainedBy = null;
     containerSlots[slot].ContainedItem = null;
   }
