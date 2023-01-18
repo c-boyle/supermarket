@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour {
   [SerializeField] private CharacterMovement movement;
   [SerializeField] private DetectingItemContainer hands;
+  [SerializeField] private Processor processor;
   private PlayerControls controls;
   private bool activeMovementInput = false;
 
@@ -16,12 +17,24 @@ public class PlayerInput : MonoBehaviour {
     controls.GameControls.GrabDrop.performed += ctx => OnGrabDrop();
     controls.GameControls.SelectUp.performed += ctx => OnSelectUp();
     controls.GameControls.SelectDown.performed += ctx => OnSelectDown();
+    controls.GameControls.Interact.performed += ctx => OnInteract();
+    controls.GameControls.Interact.canceled += ctx => OnInteractEnd();
+
+    hands.OnSelectedContainerChange += () => OnInteractEnd();
   }
 
   private void Update() {
     if (activeMovementInput) {
       movement.Move(controls.GameControls.Move.ReadValue<Vector2>());
     }
+  }
+
+  private void OnInteract() {
+    processor.StartProcessing(hands.SelectedContainer);
+  }
+
+  private void OnInteractEnd() {
+    processor.StopProcessing();
   }
 
   private void OnSelectUp() {

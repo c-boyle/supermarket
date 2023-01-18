@@ -378,9 +378,10 @@ GameObject:
   - component: {fileID: 540930561}
   - component: {fileID: 540930564}
   - component: {fileID: 540930563}
+  - component: {fileID: 540930567}
   - component: {fileID: 540930565}
   - component: {fileID: 540930566}
-  - component: {fileID: 540930567}
+  - component: {fileID: 540930568}
   m_Layer: 0
   m_Name: Arm
   m_TagString: Untagged
@@ -501,6 +502,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &540930568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540930560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a928286e7e1c1f04abb2b5c2741492c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  processorData: {fileID: 11400000, guid: 352bc71f2a57d5d49afc5190d616289d, type: 2}
+  container: {fileID: 540930566}
 --- !u!1001 &573576677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1025,6 +1040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 1350462327}
   hands: {fileID: 540930566}
+  processor: {fileID: 540930568}
 --- !u!143 &1350462326
 CharacterController:
   m_ObjectHideFlags: 0

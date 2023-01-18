@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DetectingItemContainer : ItemContainer {
   private readonly HashSet<ItemContainer> inColliderContainers = new();
   [SerializeField] private bool usedByPlayer = false;
   private ItemContainer mostRecentSelectedContainer = null;
+  public Action OnSelectedContainerChange { get; set; } = null;
 
   /* Right now this uses a primitive solution of checking which container is closest to this detecting item container */
   public ItemContainer SelectedContainer {
@@ -30,13 +32,23 @@ public class DetectingItemContainer : ItemContainer {
   }
 
   private void Update() {
-    if (usedByPlayer && inColliderContainers.Count > 0) {
-      var selectedContainer = SelectedContainer;
-      if (mostRecentSelectedContainer != null && mostRecentSelectedContainer != selectedContainer) {
-        mostRecentSelectedContainer.Highlighted = false;
+    if (usedByPlayer) {
+      if (inColliderContainers.Count > 0) {
+        var selectedContainer = SelectedContainer;
+        if (mostRecentSelectedContainer != selectedContainer) {
+          if (mostRecentSelectedContainer != null) {
+            mostRecentSelectedContainer.Highlighted = false;
+          }
+          OnSelectedContainerChange?.Invoke();
+        }
+
+        selectedContainer.Highlighted = true;
+        mostRecentSelectedContainer = selectedContainer;
+
+      } else if (mostRecentSelectedContainer != null) {
+        mostRecentSelectedContainer = null;
+        OnSelectedContainerChange?.Invoke();
       }
-      selectedContainer.Highlighted = true;
-      mostRecentSelectedContainer = selectedContainer;
     }
   }
 

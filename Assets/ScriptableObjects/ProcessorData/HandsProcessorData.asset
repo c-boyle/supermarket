@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 338b7208abb899d49b420de1944d6145, type: 3}
+  m_Name: HandsProcessorData
+  m_EditorClassIdentifier: 
+  _itemDataToProcessedItemList:
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: af6248f5a7243a54db15408c3a530d5f, type: 2}
+    <Item>k__BackingField: {fileID: 5222358802237010793, guid: cf0241c26bc5864418ceda417e78712e, type: 3}
+  <RequiredTime>k__BackingField: 3

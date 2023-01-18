@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Processor : MonoBehaviour {
   [SerializeField] private ProcessorData processorData;
-  [SerializeField] private ItemContainer container;
   private Coroutine processingRoutine;
 
-  public void StartProcessing() {
-    if (processingRoutine == null) {
-      processingRoutine = StartCoroutine(Process());
+  public void StartProcessing(ItemContainer container) {
+    if (processingRoutine == null && container != null) {
+      processingRoutine = StartCoroutine(Process(container));
     }
   }
 
@@ -19,7 +18,7 @@ public class Processor : MonoBehaviour {
     }
   }
 
-  private IEnumerator Process() {
+  private IEnumerator Process(ItemContainer container) {
     Dictionary<Item, Item> beforeProcessToProcessed = new();
     // Check if all the items in the container can be processed
     foreach (var item in container.ContainedItems) {
@@ -32,7 +31,11 @@ public class Processor : MonoBehaviour {
     yield return new WaitForSeconds(processorData.RequiredTime);
 
     foreach (var kvp in beforeProcessToProcessed) {
-      Instantiate(kvp.Value, kvp.Key.transform.position, kvp.Key.transform.rotation, kvp.Key.transform);
+      var newItem = Instantiate(kvp.Value, kvp.Key.transform.position, kvp.Key.transform.rotation, kvp.Key.transform);
+      newItem.ContainedBy = kvp.Key.ContainedBy;
+      newItem.Highlighted = kvp.Key.Highlighted;
+      int slot = kvp.Key.ContainedBy.RemoveItem(kvp.Key);
+      newItem.ContainedBy.AddItem(newItem, slot);
       Destroy(kvp.Key.gameObject);
     }
 

@@ -62,6 +62,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""fc40e854-5b3e-4f5e-af6b-d8acd4f68a5d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""SelectDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67a52034-dec9-43b3-8780-e986891ee926"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -170,6 +190,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_GameControls_GrabDrop = m_GameControls.FindAction("GrabDrop", throwIfNotFound: true);
         m_GameControls_SelectUp = m_GameControls.FindAction("SelectUp", throwIfNotFound: true);
         m_GameControls_SelectDown = m_GameControls.FindAction("SelectDown", throwIfNotFound: true);
+        m_GameControls_Interact = m_GameControls.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -233,6 +254,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_GameControls_GrabDrop;
     private readonly InputAction m_GameControls_SelectUp;
     private readonly InputAction m_GameControls_SelectDown;
+    private readonly InputAction m_GameControls_Interact;
     public struct GameControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -241,6 +263,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @GrabDrop => m_Wrapper.m_GameControls_GrabDrop;
         public InputAction @SelectUp => m_Wrapper.m_GameControls_SelectUp;
         public InputAction @SelectDown => m_Wrapper.m_GameControls_SelectDown;
+        public InputAction @Interact => m_Wrapper.m_GameControls_Interact;
         public InputActionMap Get() { return m_Wrapper.m_GameControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -262,6 +285,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SelectDown.started -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnSelectDown;
                 @SelectDown.performed -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnSelectDown;
                 @SelectDown.canceled -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnSelectDown;
+                @Interact.started -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_GameControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -278,6 +304,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SelectDown.started += instance.OnSelectDown;
                 @SelectDown.performed += instance.OnSelectDown;
                 @SelectDown.canceled += instance.OnSelectDown;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -297,5 +326,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnGrabDrop(InputAction.CallbackContext context);
         void OnSelectUp(InputAction.CallbackContext context);
         void OnSelectDown(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

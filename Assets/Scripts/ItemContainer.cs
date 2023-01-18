@@ -133,7 +133,7 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
     return item != null && acceptedItemsData.AcceptedItems.Contains(item.Data);
   }
 
-  private int RemoveItem(Item item) {
+  public int RemoveItem(Item item) {
     for (int i = 0; i < containerSlots.Count; i++) {
       if (containerSlots[i].ContainedItem == item) {
         RemoveItem(i);
