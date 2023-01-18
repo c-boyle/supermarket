@@ -8,6 +8,18 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
   [SerializeField] private Highlightable highlighting;
   private int selectedContainerSlotIndex = -1;
 
+  public List<Item> ContainedItems {
+    get {
+      List<Item> containedItems = new();
+      foreach (var slot in containerSlots) {
+        if (slot.ContainedItem != null) {
+          containedItems.Add(slot.ContainedItem);
+        }
+      }
+      return containedItems;
+    }
+  }
+
   public int ContainedCount {
     get {
       int count = 0;
