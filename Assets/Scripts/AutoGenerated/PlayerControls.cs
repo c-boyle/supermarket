@@ -44,6 +44,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""828cdbe2-0fd3-4044-bc35-e497953bbda5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""3476aded-ad5e-478f-bfc6-2068605d8764"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +130,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""GrabDrop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""56322c04-2153-4ca0-b85b-b20c092fdfbb"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Player"",
+                    ""action"": ""SelectUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9f4737f-fb7d-4fd9-b38a-4ac947acdc1a"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Player"",
+                    ""action"": ""SelectDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -128,6 +168,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_GameControls = asset.FindActionMap("GameControls", throwIfNotFound: true);
         m_GameControls_Move = m_GameControls.FindAction("Move", throwIfNotFound: true);
         m_GameControls_GrabDrop = m_GameControls.FindAction("GrabDrop", throwIfNotFound: true);
+        m_GameControls_SelectUp = m_GameControls.FindAction("SelectUp", throwIfNotFound: true);
+        m_GameControls_SelectDown = m_GameControls.FindAction("SelectDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -189,12 +231,16 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IGameControlsActions m_GameControlsActionsCallbackInterface;
     private readonly InputAction m_GameControls_Move;
     private readonly InputAction m_GameControls_GrabDrop;
+    private readonly InputAction m_GameControls_SelectUp;
+    private readonly InputAction m_GameControls_SelectDown;
     public struct GameControlsActions
     {
         private @PlayerControls m_Wrapper;
         public GameControlsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_GameControls_Move;
         public InputAction @GrabDrop => m_Wrapper.m_GameControls_GrabDrop;
+        public InputAction @SelectUp => m_Wrapper.m_GameControls_SelectUp;
+        public InputAction @SelectDown => m_Wrapper.m_GameControls_SelectDown;
         public InputActionMap Get() { return m_Wrapper.m_GameControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -210,6 +256,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @GrabDrop.started -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnGrabDrop;
                 @GrabDrop.performed -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnGrabDrop;
                 @GrabDrop.canceled -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnGrabDrop;
+                @SelectUp.started -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnSelectUp;
+                @SelectUp.performed -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnSelectUp;
+                @SelectUp.canceled -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnSelectUp;
+                @SelectDown.started -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnSelectDown;
+                @SelectDown.performed -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnSelectDown;
+                @SelectDown.canceled -= m_Wrapper.m_GameControlsActionsCallbackInterface.OnSelectDown;
             }
             m_Wrapper.m_GameControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -220,6 +272,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @GrabDrop.started += instance.OnGrabDrop;
                 @GrabDrop.performed += instance.OnGrabDrop;
                 @GrabDrop.canceled += instance.OnGrabDrop;
+                @SelectUp.started += instance.OnSelectUp;
+                @SelectUp.performed += instance.OnSelectUp;
+                @SelectUp.canceled += instance.OnSelectUp;
+                @SelectDown.started += instance.OnSelectDown;
+                @SelectDown.performed += instance.OnSelectDown;
+                @SelectDown.canceled += instance.OnSelectDown;
             }
         }
     }
@@ -237,5 +295,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnGrabDrop(InputAction.CallbackContext context);
+        void OnSelectUp(InputAction.CallbackContext context);
+        void OnSelectDown(InputAction.CallbackContext context);
     }
 }

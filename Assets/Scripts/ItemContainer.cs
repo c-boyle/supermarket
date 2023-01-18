@@ -47,6 +47,33 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
     }
   }
 
+  public void MoveSelectionUp() {
+    MoveSelection(1);
+  }
+
+  public void MoveSelectionDown() {
+    MoveSelection(-1);
+  }
+
+  private void MoveSelection(int step) {
+    if (Highlighted && containerSlots.Count > 1 && ContainedCount > 1) {
+      var newSelection = selectedContainerSlotIndex;
+      do {
+        newSelection += step;
+        newSelection %= containerSlots.Count;
+        if (newSelection < 0) {
+          newSelection = containerSlots.Count - 1;
+        }
+      } while (newSelection != selectedContainerSlotIndex && containerSlots[newSelection].ContainedItem == null);
+
+      if (newSelection != selectedContainerSlotIndex) {
+        containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = false;
+      }
+      containerSlots[newSelection].ContainedItem.Highlighted = true;
+      selectedContainerSlotIndex = newSelection;
+    }
+  }
+
   public bool AddItem(Item item) {
     if (AcceptsItem(item)) {
       for (int i = 0; i < containerSlots.Count; i++) {

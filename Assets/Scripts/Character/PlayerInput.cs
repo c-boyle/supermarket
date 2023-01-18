@@ -14,12 +14,22 @@ public class PlayerInput : MonoBehaviour {
     controls.GameControls.Move.performed += ctx => activeMovementInput = true;
     controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; };
     controls.GameControls.GrabDrop.performed += ctx => OnGrabDrop();
+    controls.GameControls.SelectUp.performed += ctx => OnSelectUp();
+    controls.GameControls.SelectDown.performed += ctx => OnSelectDown();
   }
 
   private void Update() {
     if (activeMovementInput) {
       movement.Move(controls.GameControls.Move.ReadValue<Vector2>());
     }
+  }
+
+  private void OnSelectUp() {
+    hands.SelectedContainer.MoveSelectionUp();
+  }
+
+  private void OnSelectDown() {
+    hands.SelectedContainer.MoveSelectionDown();
   }
 
   private void OnGrabDrop() {
