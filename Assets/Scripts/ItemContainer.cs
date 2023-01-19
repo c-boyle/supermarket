@@ -66,11 +66,11 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
     }
   }
 
-  public void InteractStart(PlayerInput player) {
+  public virtual void InteractStart(PlayerInput player) {
     player.Processor.StartProcessing(this);
   }
 
-  public void InteractStop(PlayerInput player) {
+  public virtual void InteractStop(PlayerInput player) {
     player.Processor.StopProcessing();
   }
 

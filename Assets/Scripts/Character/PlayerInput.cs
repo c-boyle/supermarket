@@ -38,8 +38,8 @@ public class PlayerInput : MonoBehaviour {
   }
 
   private void OnInteractEnd() {
-    if (interacting) {
-      hands.Selected.InteractStop(this);
+    if (interacting && hands.Selected is IInteractable interactable) {
+      interactable.InteractStop(this);
     }
     interacting = false;
   }

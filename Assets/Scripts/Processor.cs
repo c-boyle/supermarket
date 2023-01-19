@@ -5,6 +5,7 @@ using UnityEngine;
 public class Processor : MonoBehaviour {
   [SerializeField] private ProcessorData processorData;
   private Coroutine processingRoutine;
+  protected bool Processing { get => processingRoutine != null; }
 
   public void StartProcessing(ItemContainer container) {
     if (processingRoutine == null && container != null) {
