@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour {
   [SerializeField] private CharacterMovement movement;
   [SerializeField] private DetectingItemContainer hands;
-  [SerializeField] private Processor processor;
+  [field: SerializeField] public Processor Processor { get; private set; }
   private PlayerControls controls;
   private bool activeMovementInput = false;
 

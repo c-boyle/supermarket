@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemContainer : MonoBehaviour, IHighlightable {
+public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
   [SerializeField] private AcceptedItemsData acceptedItemsData;
   [SerializeField] private List<ContainerSlot> containerSlots = new();
   [SerializeField] private Highlightable highlighting;
@@ -65,16 +65,12 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
     }
   }
 
-  private void SelectItem(bool highlight) {
-    bool hasMultipleSlotsAndAnItem = HighlightSelectedItemEnabled && containerSlots.Count > 1 && ContainedCount > 0;
-    if (hasMultipleSlotsAndAnItem) {
-      if (highlight && selectedContainerSlotIndex == -1) {
-        selectedContainerSlotIndex = FirstOccupiedSlotIndex;
-      }
-      if (selectedContainerSlotIndex != -1) {
-        containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = highlight;
-      }
-    }
+  public void InteractStart(PlayerInput player) {
+    player.Processor.StartProcessing(this);
+  }
+
+  public void InteractStop(PlayerInput player) {
+    player.Processor.StopProcessing();
   }
 
   public void MoveSelectionUp() {
@@ -101,6 +97,18 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
       }
       containerSlots[newSelection].ContainedItem.Highlighted = true;
       selectedContainerSlotIndex = newSelection;
+    }
+  }
+
+  private void SelectItem(bool highlight) {
+    bool hasMultipleSlotsAndAnItem = HighlightSelectedItemEnabled && containerSlots.Count > 1 && ContainedCount > 0;
+    if (hasMultipleSlotsAndAnItem) {
+      if (highlight && selectedContainerSlotIndex == -1) {
+        selectedContainerSlotIndex = FirstOccupiedSlotIndex;
+      }
+      if (selectedContainerSlotIndex != -1) {
+        containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = highlight;
+      }
     }
   }
 
