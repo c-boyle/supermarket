@@ -485,7 +485,7 @@ MonoBehaviour:
   - <ContainedItem>k__BackingField: {fileID: 0}
     <ContainmentPosition>k__BackingField: {fileID: 1205004211}
   highlighting: {fileID: 0}
-  usedByPlayer: 1
+  highlightSelectedContainer: 1
 --- !u!54 &540930567
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -515,7 +515,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   processorData: {fileID: 11400000, guid: 352bc71f2a57d5d49afc5190d616289d, type: 2}
-  container: {fileID: 540930566}
 --- !u!1001 &573576677
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,6 +8,18 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
   [SerializeField] private Highlightable highlighting;
   private int selectedContainerSlotIndex = -1;
 
+  private bool _highlightSelectedItemEnabled = true;
+  public bool HighlightSelectedItemEnabled { 
+    get => _highlightSelectedItemEnabled; 
+    set {
+      bool flippedTrue = _highlightSelectedItemEnabled != value && value;
+      _highlightSelectedItemEnabled = value;
+      if (flippedTrue) {
+        SelectItem(true);
+      }
+    } 
+  }
+
   public List<Item> ContainedItems {
     get {
       List<Item> containedItems = new();
@@ -35,14 +47,8 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
   public bool Highlighted {
     get => highlighting != null ? highlighting.Highlighted : false;
     set {
-      bool hasMultipleSlotsAndAnItem = containerSlots.Count > 1 && ContainedCount > 0;
-      if (Highlighted != value && hasMultipleSlotsAndAnItem) {
-        if (value) {
-          selectedContainerSlotIndex = FirstOccupiedSlotIndex;
-        }
-        if (selectedContainerSlotIndex != -1) {
-          containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = value;
-        }
+      if (Highlighted != value) {
+        SelectItem(value);
       }
       highlighting.Highlighted = value;
     }
@@ -59,6 +65,18 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
     }
   }
 
+  private void SelectItem(bool highlight) {
+    bool hasMultipleSlotsAndAnItem = HighlightSelectedItemEnabled && containerSlots.Count > 1 && ContainedCount > 0;
+    if (hasMultipleSlotsAndAnItem) {
+      if (highlight && selectedContainerSlotIndex == -1) {
+        selectedContainerSlotIndex = FirstOccupiedSlotIndex;
+      }
+      if (selectedContainerSlotIndex != -1) {
+        containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = highlight;
+      }
+    }
+  }
+
   public void MoveSelectionUp() {
     MoveSelection(1);
   }
@@ -68,7 +86,7 @@ public class ItemContainer : MonoBehaviour, IHighlightable {
   }
 
   private void MoveSelection(int step) {
-    if (Highlighted && containerSlots.Count > 1 && ContainedCount > 1) {
+    if (Highlighted && HighlightSelectedItemEnabled && containerSlots.Count > 1 && ContainedCount > 1) {
       var newSelection = selectedContainerSlotIndex;
       do {
         newSelection += step;

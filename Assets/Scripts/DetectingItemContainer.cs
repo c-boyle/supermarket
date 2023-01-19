@@ -5,11 +5,12 @@ using System;
 
 public class DetectingItemContainer : ItemContainer {
   private readonly HashSet<ItemContainer> inColliderContainers = new();
-  [SerializeField] private bool usedByPlayer = false;
+  [SerializeField] private bool highlightSelectedContainer = false;
   private ItemContainer mostRecentSelectedContainer = null;
   public Action OnSelectedContainerChange { get; set; } = null;
 
   /* Right now this uses a primitive solution of checking which container is closest to this detecting item container */
+  /* Gets called every frame right now, pretty inefficient as it stands */
   public ItemContainer SelectedContainer {
     get {
       ItemContainer selectedContainer = null;
@@ -32,7 +33,7 @@ public class DetectingItemContainer : ItemContainer {
   }
 
   private void Update() {
-    if (usedByPlayer) {
+    if (highlightSelectedContainer) {
       if (inColliderContainers.Count > 0) {
         var selectedContainer = SelectedContainer;
         if (mostRecentSelectedContainer != selectedContainer) {
@@ -42,7 +43,9 @@ public class DetectingItemContainer : ItemContainer {
           OnSelectedContainerChange?.Invoke();
         }
 
+        selectedContainer.HighlightSelectedItemEnabled = ContainedCount == 0;
         selectedContainer.Highlighted = true;
+
         mostRecentSelectedContainer = selectedContainer;
 
       } else if (mostRecentSelectedContainer != null) {
