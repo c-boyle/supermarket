@@ -3,10 +3,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour {
   [SerializeField] private CharacterMovement movement;
-  [SerializeField] private DetectingItemContainer hands;
+  [SerializeField] private PlayerDetectingItemContainer hands;
   [field: SerializeField] public Processor Processor { get; private set; }
   private PlayerControls controls;
   private bool activeMovementInput = false;
+  private bool interacting = true;
 
   private void Awake() {
     if (controls == null) {
@@ -20,7 +21,7 @@ public class PlayerInput : MonoBehaviour {
     controls.GameControls.Interact.performed += ctx => OnInteract();
     controls.GameControls.Interact.canceled += ctx => OnInteractEnd();
 
-    hands.OnSelectedContainerChange += () => OnInteractEnd();
+    hands.OnSelectedChange += () => OnInteractEnd();
   }
 
   private void Update() {
@@ -30,19 +31,29 @@ public class PlayerInput : MonoBehaviour {
   }
 
   private void OnInteract() {
-    processor.StartProcessing(hands.SelectedContainer);
+    if (hands.Selected is IInteractable interactable) {
+      interactable.InteractStart(this);
+      interacting = true;
+    }
   }
 
   private void OnInteractEnd() {
-    processor.StopProcessing();
+    if (interacting) {
+      hands.Selected.InteractStop(this);
+    }
+    interacting = false;
   }
 
   private void OnSelectUp() {
-    hands.SelectedContainer.MoveSelectionUp();
+    if (hands.Selected is ItemContainer container) {
+      container.MoveSelectionUp();
+    }
   }
 
   private void OnSelectDown() {
-    hands.SelectedContainer.MoveSelectionDown();
+    if (hands.Selected is ItemContainer container) {
+      container.MoveSelectionDown();
+    }
   }
 
   private void OnGrabDrop() {

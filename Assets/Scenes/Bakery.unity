@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 540930563}
   - component: {fileID: 540930567}
   - component: {fileID: 540930565}
-  - component: {fileID: 540930566}
+  - component: {fileID: 540930569}
   - component: {fileID: 540930568}
   m_Layer: 0
   m_Name: Arm
@@ -468,24 +468,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.81860495, y: 5.205374, z: 2.507819}
   m_Center: {x: -0.090697676, y: -0.11533607, z: 0.05304335}
---- !u!114 &540930566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 540930560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ac643a9d52b3be47bf8769d3c3c6899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceptedItemsData: {fileID: 11400000, guid: a9f308861ad5332499a156958ad29c45, type: 2}
-  containerSlots:
-  - <ContainedItem>k__BackingField: {fileID: 0}
-    <ContainmentPosition>k__BackingField: {fileID: 1205004211}
-  highlighting: {fileID: 0}
-  highlightSelectedContainer: 1
 --- !u!54 &540930567
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -515,6 +497,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   processorData: {fileID: 11400000, guid: 352bc71f2a57d5d49afc5190d616289d, type: 2}
+--- !u!114 &540930569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540930560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e72ec29715266e4dac4f10c1d1967df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceptedItemsData: {fileID: 11400000, guid: a9f308861ad5332499a156958ad29c45, type: 2}
+  containerSlots:
+  - <ContainedItem>k__BackingField: {fileID: 0}
+    <ContainmentPosition>k__BackingField: {fileID: 1205004211}
+  highlighting: {fileID: 0}
 --- !u!1001 &573576677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1038,8 +1037,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 1350462327}
-  hands: {fileID: 540930566}
-  processor: {fileID: 540930568}
+  hands: {fileID: 540930569}
+  <Processor>k__BackingField: {fileID: 540930568}
 --- !u!143 &1350462326
 CharacterController:
   m_ObjectHideFlags: 0

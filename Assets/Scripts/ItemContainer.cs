@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -145,15 +146,24 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
     AddItem(itemToTake);
   }
 
+  /*
   protected bool Contains(ItemContainer itemContainer) {
+    return Contains((slot) => slot.ContainedItem != null && (slot.ContainedItem.Container == itemContainer || (slot.ContainedItem.IsContainer && slot.ContainedItem.Container.Contains(itemContainer))));
+  }
+
+  protected bool Contains(Processor processor) {
+    return Contains((slot) => slot.ContainedItem != null && (slot.ContainedItem.Processor == processor || (slot.ContainedItem.IsContainer && slot.ContainedItem.Container.Contains(processor))));
+  }
+
+  private bool Contains(Predicate<ContainerSlot> containsCriteria) {
     foreach (var slot in containerSlots) {
-      bool slotContainsItem = slot.ContainedItem != null && (slot.ContainedItem.Container == itemContainer || (slot.ContainedItem.IsContainer && slot.ContainedItem.Container.Contains(itemContainer)));
-      if (slotContainsItem) {
+      if (containsCriteria(slot)) {
         return true;
       }
     }
     return false;
   }
+  */
 
   private bool AcceptsItem(Item item) {
     return item != null && acceptedItemsData.AcceptedItems.Contains(item.Data);

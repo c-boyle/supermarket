@@ -10,7 +10,7 @@ public class DetectingItemContainer : ItemContainer {
   /* Gets called every frame right now, pretty inefficient as it stands */
   public ItemContainer SelectedContainer {
     get {
-      return Helpers.GetNearest(transform.position, inColliderContainers, (container) => !Contains(container));
+      return Helpers.GetNearest(transform.position, inColliderContainers);
     }
   }
 

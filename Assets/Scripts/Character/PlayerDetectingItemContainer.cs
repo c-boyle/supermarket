@@ -12,7 +12,7 @@ public class PlayerDetectingItemContainer : ItemContainer {
   /* Gets called every frame right now, pretty inefficient as it stands */
   public IInteractable Selected {
     get {
-      return Helpers.GetNearest(transform.position, inColliderInteractables, (interactable) => !Contains(interactable));
+      return Helpers.GetNearest(transform.position, inColliderInteractables);
     }
   }
 

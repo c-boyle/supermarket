@@ -7,7 +7,9 @@ public class Item : MonoBehaviour, IHighlightable {
   [SerializeField] private Highlightable highlighting;
   [field: SerializeField] public ItemContainer ContainedBy { get; set; }
   [field: SerializeField] public ItemContainer Container { get; set; }
+  [field: SerializeField] public Processor Processor { get; set; }
   public bool IsContainer { get => Container != null; }
+  public bool IsProcessor { get => Processor != null; }
   public ItemData Data { get => data; }
   public bool Highlighted { get => highlighting.Highlighted; set => highlighting.Highlighted = value; }
 }

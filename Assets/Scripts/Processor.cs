@@ -15,6 +15,7 @@ public class Processor : MonoBehaviour {
   public void StopProcessing() {
     if (processingRoutine != null) {
       StopCoroutine(processingRoutine);
+      processingRoutine = null;
     }
   }
 
