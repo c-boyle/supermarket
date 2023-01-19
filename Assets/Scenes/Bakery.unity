@@ -367,27 +367,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5569110378314797938, guid: 2566bdcedd63096449557b4a49923622, type: 3}
   m_PrefabInstance: {fileID: 356105575}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &529995258 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7795920801602519279, guid: 6c853af57ab50324fa11963c7c0588d8, type: 3}
-  m_PrefabInstance: {fileID: 7795920802245903204}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &529995264
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529995258}
-  serializedVersion: 2
-  m_Mass: 9000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 116
-  m_CollisionDetection: 0
 --- !u!1 &540930560
 GameObject:
   m_ObjectHideFlags: 0
@@ -955,9 +934,9 @@ GameObject:
   - component: {fileID: 1350462323}
   - component: {fileID: 1350462322}
   - component: {fileID: 1350462321}
-  - component: {fileID: 1350462326}
   - component: {fileID: 1350462325}
   - component: {fileID: 1350462327}
+  - component: {fileID: 1350462328}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1057,27 +1036,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2867b23d85f644f9d57084daa6cd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: {fileID: 1350462327}
-  hands: {fileID: 540930569}
+  <Movement>k__BackingField: {fileID: 1350462327}
+  <Hands>k__BackingField: {fileID: 540930569}
   <Processor>k__BackingField: {fileID: 540930568}
---- !u!143 &1350462326
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350462320}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 0
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1350462327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1090,8 +1051,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ee9eaa8289f35044b256759101bbc0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1350462326}
+  rb: {fileID: 1350462328}
   speed: 2
+--- !u!54 &1350462328
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350462320}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!4 &1482714531 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5569110378314797938, guid: 2566bdcedd63096449557b4a49923622, type: 3}

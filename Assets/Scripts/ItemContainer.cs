@@ -18,6 +18,9 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
       if (flippedTrue) {
         SelectItem(true);
       }
+      if (!value && selectedContainerSlotIndex != -1) {
+        containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = false;
+      }
     } 
   }
 
@@ -142,7 +145,12 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
   }
 
   public void TakeItem(ItemContainer itemContainer) {
-    var itemToTake = itemContainer.containerSlots.Count > 1 ? itemContainer.containerSlots[itemContainer.selectedContainerSlotIndex].ContainedItem : itemContainer.containerSlots[0].ContainedItem;
+    Item itemToTake = null;
+    if (itemContainer.containerSlots.Count == 1) {
+      itemToTake = itemContainer.containerSlots[0].ContainedItem;
+    } else if (itemContainer.selectedContainerSlotIndex != -1) {
+      itemToTake = itemContainer.containerSlots[itemContainer.selectedContainerSlotIndex].ContainedItem;
+    }
     AddItem(itemToTake);
   }
 

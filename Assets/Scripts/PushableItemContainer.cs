@@ -11,8 +11,12 @@ public class PushableItemContainer : ItemContainer {
     if (beingHeld) {
       originalParent = transform.parent;
       transform.SetParent(player.transform, true);
+      player.Movement.RotationEnabled = false;
+      player.Hands.PickUpAndDropEnabled = false;
     } else {
       transform.SetParent(originalParent, true);
+      player.Movement.RotationEnabled = true;
+      player.Hands.PickUpAndDropEnabled = true;
     }
   }
 

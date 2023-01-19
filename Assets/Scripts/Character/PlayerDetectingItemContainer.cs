@@ -7,6 +7,7 @@ public class PlayerDetectingItemContainer : ItemContainer {
   private readonly HashSet<IInteractable> inColliderInteractables = new();
   private IInteractable mostRecentSelected = null;
   public Action OnSelectedChange { get; set; } = null;
+  public bool PickUpAndDropEnabled { get; set; } = true;
 
   /* Right now this uses a primitive solution of checking which container is closest to this detecting item container */
   /* Gets called every frame right now, pretty inefficient as it stands */
@@ -29,7 +30,7 @@ public class PlayerDetectingItemContainer : ItemContainer {
       if (selectedInteractable is ItemContainer container) {
         container.HighlightSelectedItemEnabled = ContainedCount == 0;
       }
-      selectedInteractable.Highlighted = true;
+      selectedInteractable.Highlighted = PickUpAndDropEnabled;
 
       mostRecentSelected = selectedInteractable;
 
@@ -42,7 +43,7 @@ public class PlayerDetectingItemContainer : ItemContainer {
   private void OnTriggerEnter(Collider other) {
     if (other.gameObject.TryGetComponent(out IInteractable interactable)) {
       inColliderInteractables.Add(interactable);
-      //Debug.Log("ItemContainer " + container.name + " entered container range");
+      Debug.Log("IInteractable " + other.name + " entered container range");
     }
   }
 
@@ -52,18 +53,18 @@ public class PlayerDetectingItemContainer : ItemContainer {
         interactable.Highlighted = false;
       }
       inColliderInteractables.Remove(interactable);
-      //Debug.Log("ItemContainer " + container.name + " exited container range");
+      Debug.Log("IInteractable " + other.name + " exited container range");
     }
   }
 
   public void PickupItem() {
-    if (Selected is ItemContainer container) {
+    if (PickUpAndDropEnabled && Selected is ItemContainer container) {
       TakeItem(container);
     }
   }
 
   public void PutDownItem() {
-    if (Selected is ItemContainer container) {
+    if (PickUpAndDropEnabled && Selected is ItemContainer container) {
       container.TakeItem(this);
     }
   }
