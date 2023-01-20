@@ -33,7 +33,8 @@ public class Processor : MonoBehaviour {
     yield return new WaitForSeconds(processorData.RequiredTime);
 
     foreach (var kvp in beforeProcessToProcessed) {
-      var newItem = Instantiate(kvp.Value, kvp.Key.transform.position, kvp.Key.transform.rotation, kvp.Key.transform);
+      var beforeTransform = kvp.Key.transform;
+      var newItem = Instantiate(kvp.Value, beforeTransform.position, beforeTransform.rotation, beforeTransform.parent);
       newItem.ContainedBy = kvp.Key.ContainedBy;
       newItem.Highlighted = kvp.Key.Highlighted;
       int slot = kvp.Key.ContainedBy.RemoveItem(kvp.Key);

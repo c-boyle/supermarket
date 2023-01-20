@@ -8,7 +8,7 @@ public class AutomaticProcessor : Processor, IInteractable {
   public bool Highlighted { get => highlightable.Highlighted; set => highlightable.Highlighted = value; }
 
   public void InteractStart(PlayerInput player) {
-    if (Processing) {
+    if (!Processing) {
       StartProcessing(container);
     } else {
       StopProcessing();

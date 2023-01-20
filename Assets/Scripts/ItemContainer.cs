@@ -24,7 +24,7 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
     } 
   }
 
-  public List<Item> ContainedItems {
+  public virtual List<Item> ContainedItems {
     get {
       List<Item> containedItems = new();
       foreach (var slot in containerSlots) {

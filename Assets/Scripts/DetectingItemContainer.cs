@@ -6,6 +6,16 @@ using System;
 public class DetectingItemContainer : ItemContainer {
   private readonly HashSet<ItemContainer> inColliderContainers = new();
 
+  public override List<Item> ContainedItems {
+    get {
+      List<Item> containedItems = new();
+      foreach (var container in inColliderContainers) {
+        containedItems.AddRange(container.ContainedItems);
+      }
+      return containedItems;
+    }
+  }
+
   /* Right now this uses a primitive solution of checking which container is closest to this detecting item container */
   /* Gets called every frame right now, pretty inefficient as it stands */
   public ItemContainer SelectedContainer {

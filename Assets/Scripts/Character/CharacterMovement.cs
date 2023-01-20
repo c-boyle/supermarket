@@ -21,7 +21,7 @@ public class CharacterMovement : MonoBehaviour {
     var motion = new Vector3(input.x * speed, 0f, input.y * speed);
     rb.velocity = motion;
     if (RotationEnabled) {
-      transform.forward = motion;
+      transform.forward = motion; // Should replace this with something rigidbody dependant
     }
   }
 
