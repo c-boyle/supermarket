@@ -43,7 +43,7 @@ public class PlayerDetectingItemContainer : ItemContainer {
   private void OnTriggerEnter(Collider other) {
     if (other.gameObject.TryGetComponent(out IInteractable interactable)) {
       inColliderInteractables.Add(interactable);
-      Debug.Log("IInteractable " + other.name + " entered container range");
+      //Debug.Log("IInteractable " + other.name + " entered container range");
     }
   }
 
@@ -53,19 +53,33 @@ public class PlayerDetectingItemContainer : ItemContainer {
         interactable.Highlighted = false;
       }
       inColliderInteractables.Remove(interactable);
-      Debug.Log("IInteractable " + other.name + " exited container range");
+      //Debug.Log("IInteractable " + other.name + " exited container range");
     }
   }
 
   public void PickupItem() {
-    if (PickUpAndDropEnabled && Selected is ItemContainer container) {
-      TakeItem(container);
+    if (PickUpAndDropEnabled) {
+      var selected = Selected;
+      ItemContainer selectedContainer = null;
+      if (selected is ItemContainer container) {
+        selectedContainer = container;
+      } else if (selected is AutomaticProcessor processor) {
+        selectedContainer = processor.Container;
+      }
+      TakeItem(selectedContainer);
     }
   }
 
   public void PutDownItem() {
-    if (PickUpAndDropEnabled && Selected is ItemContainer container) {
-      container.TakeItem(this);
+    if (PickUpAndDropEnabled) {
+      var selected = Selected;
+      ItemContainer selectedContainer = null;
+      if (selected is ItemContainer container) {
+        selectedContainer = container;
+      } else if (selected is AutomaticProcessor processor) {
+        selectedContainer = processor.Container;
+      }
+      selectedContainer.TakeItem(this);
     }
   }
 }

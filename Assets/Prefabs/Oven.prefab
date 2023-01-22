@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   processorData: {fileID: 11400000, guid: c4d95157983b7e24cb724051a0c31c70, type: 2}
-  container: {fileID: 1635019810475082452}
+  <Container>k__BackingField: {fileID: 1635019810475082452}
   highlightable: {fileID: 1635019809198635847}
 --- !u!114 &1635019809198635847
 MonoBehaviour:
@@ -112,7 +112,6 @@ MonoBehaviour:
   - {fileID: 1635019810042953704}
   - {fileID: 1635019809220868791}
   - {fileID: 1635019809821241859}
-  _highlighted: 0
 --- !u!1 &1635019809220868789
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class Processor : MonoBehaviour {
   public void StartProcessing(ItemContainer container) {
     if (processingRoutine == null && container != null) {
       processingRoutine = StartCoroutine(Process(container));
+      Debug.Log("Processor " + name + " Started");
     }
   }
 
@@ -17,6 +18,7 @@ public class Processor : MonoBehaviour {
     if (processingRoutine != null) {
       StopCoroutine(processingRoutine);
       processingRoutine = null;
+      Debug.Log("Processor " + name + " Stopped");
     }
   }
 
@@ -43,5 +45,6 @@ public class Processor : MonoBehaviour {
     }
 
     processingRoutine = null;
+    Debug.Log("Processor " + name + " Complete");
   }
 }
