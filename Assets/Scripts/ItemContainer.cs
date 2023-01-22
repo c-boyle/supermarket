@@ -24,12 +24,18 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
     } 
   }
 
+  /// <summary>
+  /// Every item contained within this item container and its contained item containers.
+  /// </summary>
   public virtual List<Item> ContainedItems {
     get {
       List<Item> containedItems = new();
       foreach (var slot in containerSlots) {
         if (slot.ContainedItem != null) {
           containedItems.Add(slot.ContainedItem);
+          if (slot.ContainedItem.IsContainer) {
+            containedItems.AddRange(slot.ContainedItem.Container.ContainedItems);
+          }
         }
       }
       return containedItems;

@@ -24,22 +24,22 @@ public class Processor : MonoBehaviour {
     Dictionary<Item, Item> beforeProcessToProcessed = new();
     // Check if all the items in the container can be processed
     foreach (var item in container.ContainedItems) {
-      if (!processorData.ItemDataToProcessedItem.TryGetValue(item.Data, out var processedItem)) {
-        yield break;
+      if (processorData.ItemDataToProcessedItem.TryGetValue(item.Data, out var processedItem)) {
+        beforeProcessToProcessed[item] = processedItem;
       }
-      beforeProcessToProcessed[item] = processedItem;
     }
 
     yield return new WaitForSeconds(processorData.RequiredTime);
 
     foreach (var kvp in beforeProcessToProcessed) {
-      var beforeTransform = kvp.Key.transform;
+      var beforeItem = kvp.Key;
+      var beforeTransform = beforeItem.transform;
       var newItem = Instantiate(kvp.Value, beforeTransform.position, beforeTransform.rotation, beforeTransform.parent);
-      newItem.ContainedBy = kvp.Key.ContainedBy;
-      newItem.Highlighted = kvp.Key.Highlighted;
-      int slot = kvp.Key.ContainedBy.RemoveItem(kvp.Key);
+      newItem.ContainedBy = beforeItem.ContainedBy;
+      newItem.Highlighted = beforeItem.Highlighted;
+      int slot = beforeItem.ContainedBy.RemoveItem(beforeItem);
       newItem.ContainedBy.AddItem(newItem, slot);
-      Destroy(kvp.Key.gameObject);
+      Destroy(beforeItem.gameObject);
     }
 
     processingRoutine = null;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Highlightable : MonoBehaviour, IHighlightable {
   [SerializeField] private List<Renderer> renderersToHighlight = new();
 
-  [SerializeField] private bool _highlighted = false;
+  private bool _highlighted = false;
   public bool Highlighted {
     get {
       return _highlighted;

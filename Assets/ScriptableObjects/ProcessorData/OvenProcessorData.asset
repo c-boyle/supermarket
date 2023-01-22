@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: OvenProcessorData
   m_EditorClassIdentifier: 
   _itemDataToProcessedItemList:
-  - <ItemData>k__BackingField: {fileID: 11400000, guid: f0e111bcc3ee66a478a36454bbdec48d, type: 2}
-    <Item>k__BackingField: {fileID: 1712640682303328634, guid: 310482be7e0af974eace2146380f1ce8, type: 3}
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: af6248f5a7243a54db15408c3a530d5f, type: 2}
+    <Item>k__BackingField: {fileID: 5684090820947106720, guid: 70b17bc71f90db048a68cdea390aafb3, type: 3}
   <RequiredTime>k__BackingField: 5
