@@ -16,10 +16,15 @@ public class CustomerSpawner : MonoBehaviour {
     }
   }
 
+  private void Start() {
+    CustomerPool.Get();
+  }
+
   private CustomerInput CreatePooledCustomer() {
     var randomCustomer = possibleCustomers[Random.Range(0, possibleCustomers.Count)];
     var randomOrder = possibleOrders[Random.Range(0, possibleOrders.Count)];
     randomCustomer.Order = randomOrder;
+    randomCustomer.Pool = CustomerPool;
     return Instantiate(randomCustomer, transform);
   }
 
@@ -29,6 +34,8 @@ public class CustomerSpawner : MonoBehaviour {
 
   private void OnTakeFromPool(CustomerInput customer) {
     customer.gameObject.SetActive(true);
+    var randomOrder = possibleOrders[Random.Range(0, possibleOrders.Count)];
+    customer.Order = randomOrder;
   }
 
   private void OnDestroyPoolObject(CustomerInput customer) {
