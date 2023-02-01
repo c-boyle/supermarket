@@ -2,13 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using TMPro;
 
 public class CustomerInput : MonoBehaviour {
   [SerializeField] private CharacterMovement movement;
   [SerializeField] private ItemContainer container;
-  [field: SerializeField] public Order Order { get; set; }
+  [SerializeField] private TMP_Text orderText;
+  private Order _order;
+  public Order Order {
+    get => _order;
+    set {
+      _order = value;
+      orderText.text = _order.OrderText;
+    }
+  }
 
-  public IObjectPool<CustomerInput> Pool { get; set; } = null;
+  public IObjectPool<CustomerInput> Pool { get; set; }
 
   private void OnEnable() {
     container.OnItemAdded += CheckOrderSatisfied;

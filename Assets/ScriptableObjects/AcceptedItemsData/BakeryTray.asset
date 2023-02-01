@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7da28a96927322540a225de38e94e6c3, type: 3}
-  m_Name: AcceptsCookieDough
+  m_Name: BakeryTray
   m_EditorClassIdentifier: 
   _acceptedItems:
     list:
     - {fileID: 11400000, guid: af6248f5a7243a54db15408c3a530d5f, type: 2}
+    - {fileID: 11400000, guid: f6280d02457779d408671ff386c154bd, type: 2}

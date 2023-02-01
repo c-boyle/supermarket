@@ -23,9 +23,10 @@ public class CustomerSpawner : MonoBehaviour {
   private CustomerInput CreatePooledCustomer() {
     var randomCustomer = possibleCustomers[Random.Range(0, possibleCustomers.Count)];
     var randomOrder = possibleOrders[Random.Range(0, possibleOrders.Count)];
-    randomCustomer.Order = randomOrder;
-    randomCustomer.Pool = CustomerPool;
-    return Instantiate(randomCustomer, transform);
+    var instantiatedCustomer = Instantiate(randomCustomer, transform);
+    instantiatedCustomer.Order = randomOrder;
+    instantiatedCustomer.Pool = CustomerPool;
+    return instantiatedCustomer;
   }
 
   private void OnReturnedToPool(CustomerInput customer) {
