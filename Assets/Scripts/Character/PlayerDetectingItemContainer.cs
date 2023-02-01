@@ -66,7 +66,9 @@ public class PlayerDetectingItemContainer : ItemContainer {
       } else if (selected is AutomaticProcessor processor) {
         selectedContainer = processor.Container;
       }
-      TakeItem(selectedContainer);
+      if (selectedContainer != null) {
+        TakeItem(selectedContainer);
+      }
     }
   }
 
@@ -79,7 +81,9 @@ public class PlayerDetectingItemContainer : ItemContainer {
       } else if (selected is AutomaticProcessor processor) {
         selectedContainer = processor.Container;
       }
-      selectedContainer.TakeItem(this);
+      if (selectedContainer != null) {
+        selectedContainer.TakeItem(this);
+      }
     }
   }
 }

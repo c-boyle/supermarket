@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public static class Helpers {
   public static T GetNearest<T>(Vector3 position, IEnumerable<T> targets, Predicate<T> inclusionCriteria = null) where T : IInteractable {
@@ -21,5 +22,10 @@ public static class Helpers {
       }
     }
     return nearest;
+  }
+
+  // Cite: https://stackoverflow.com/questions/3804367/testing-for-equality-between-dictionaries-in-c-sharp
+  public static bool DictionaryContentsEqual<TKey, TValue>(Dictionary<TKey, TValue> dic1, Dictionary<TKey, TValue> dic2) {
+    return dic1.Count == dic2.Count && !dic1.Except(dic2).Any();
   }
 }

@@ -9,6 +9,8 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
   [SerializeField] private Highlightable highlighting;
   private int selectedContainerSlotIndex = -1;
 
+  public Action OnItemAdded { get; set; }
+
   private bool _highlightSelectedItemEnabled = true;
   public bool HighlightSelectedItemEnabled { 
     get => _highlightSelectedItemEnabled; 
@@ -148,6 +150,7 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
       selectedContainerSlotIndex = slot;
       containerSlots[selectedContainerSlotIndex].ContainedItem.Highlighted = Highlighted;
     }
+    OnItemAdded?.Invoke();
   }
 
   public void TakeItem(ItemContainer itemContainer) {
