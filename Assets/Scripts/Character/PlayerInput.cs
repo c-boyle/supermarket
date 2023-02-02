@@ -1,7 +1,15 @@
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PlayerInput : MonoBehaviour {
+public class PlayerInput : NetworkBehaviour {
+  private enum InputAction {
+    GrabDrop,
+    SelectUp,
+    SelectDown,
+    Interact,
+    InteractEnd
+  }
+
   [field: SerializeField] public CharacterMovement Movement { get; private set; }
   [field: SerializeField] public PlayerDetectingItemContainer Hands { get; private set; }
   [field: SerializeField] public Processor Processor { get; private set; }
@@ -15,11 +23,11 @@ public class PlayerInput : MonoBehaviour {
     }
     controls.GameControls.Move.performed += ctx => activeMovementInput = true;
     controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; Movement.Stop(); };
-    controls.GameControls.GrabDrop.performed += ctx => OnGrabDrop();
-    controls.GameControls.SelectUp.performed += ctx => OnSelectUp();
-    controls.GameControls.SelectDown.performed += ctx => OnSelectDown();
-    controls.GameControls.Interact.performed += ctx => OnInteract();
-    controls.GameControls.Interact.canceled += ctx => OnInteractEnd();
+    controls.GameControls.GrabDrop.performed += ctx => PlayerInputServerRpc(InputAction.GrabDrop);
+    controls.GameControls.SelectUp.performed += ctx => PlayerInputServerRpc(InputAction.SelectUp);
+    controls.GameControls.SelectDown.performed += ctx => PlayerInputServerRpc(InputAction.SelectDown);
+    controls.GameControls.Interact.performed += ctx => PlayerInputServerRpc(InputAction.Interact);
+    controls.GameControls.Interact.canceled += ctx => PlayerInputServerRpc(InputAction.InteractEnd);
 
     Hands.OnSelectedChange += () => OnInteractEnd();
   }
@@ -70,5 +78,28 @@ public class PlayerInput : MonoBehaviour {
 
   private void OnDisable() {
     controls.Disable();
+  }
+
+  [ServerRpc]
+  private void PlayerInputServerRpc(InputAction inputAction) {
+    switch (inputAction) {
+      case InputAction.GrabDrop:
+        OnGrabDrop();
+        break;
+      case InputAction.SelectUp:
+        OnSelectUp();
+        break;
+      case InputAction.SelectDown:
+        OnSelectDown();
+        break;
+      case InputAction.Interact:
+        OnInteract();
+        break;
+      case InputAction.InteractEnd:
+        OnInteractEnd();
+        break;
+      default:
+        break;
+    }
   }
 }
