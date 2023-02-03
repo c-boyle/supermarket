@@ -5,11 +5,11 @@
  {
      string myLog = "*begin log";
      string filename = "";
-     bool doShow = true;
+     bool doShow = false;
      int kChars = 700;
      void OnEnable() { Application.logMessageReceived += Log; }
      void OnDisable() { Application.logMessageReceived -= Log; }
-     void Update() { if (Input.GetKeyDown(KeyCode.Space)) { doShow = !doShow; } }
+     void Update() { if (Input.GetKeyDown(KeyCode.I)) { doShow = !doShow; } }
      public void Log(string logString, string stackTrace, LogType type)
      {
         // for onscreen...
