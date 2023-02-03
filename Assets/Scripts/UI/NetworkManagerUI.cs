@@ -9,7 +9,7 @@ public class NetworkManagerUI : MonoBehaviour {
   [SerializeField] private Button serverButton;
   [SerializeField] private Button hostButton;
   [SerializeField] private Button clientButton;
-  [SerializeField] private UnityTransport transport;
+  private bool doShow = false;
 
   private void Awake() {
     serverButton.onClick.AddListener(() => {
@@ -21,5 +21,17 @@ public class NetworkManagerUI : MonoBehaviour {
     clientButton.onClick.AddListener(() => {
       NetworkManager.Singleton.StartClient();
     });
+    serverButton.gameObject.SetActive(doShow);
+    hostButton.gameObject.SetActive(doShow);
+    clientButton.gameObject.SetActive(doShow);
+  }
+
+  private void Update() {
+    if (Input.GetKeyDown(KeyCode.P)) {
+      doShow = !doShow;
+      serverButton.gameObject.SetActive(doShow);
+      hostButton.gameObject.SetActive(doShow);
+      clientButton.gameObject.SetActive(doShow);
+    }
   }
 }
