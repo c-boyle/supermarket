@@ -9,6 +9,7 @@ public class PlayerDetectingItemContainer : ItemContainer {
   private IInteractable mostRecentSelected = null;
   public Action OnSelectedChange { get; set; } = null;
   public bool PickUpAndDropEnabled { get; set; } = true;
+  public bool HighlightingEnabled { get; set; } = true;
 
   /* Right now this uses a primitive solution of checking which container is closest to this detecting item container */
   /* Gets called every frame right now, pretty inefficient as it stands */
@@ -19,6 +20,9 @@ public class PlayerDetectingItemContainer : ItemContainer {
   }
 
   private void Update() {
+    if (!HighlightingEnabled) {
+      return;
+    }
     if (inColliderInteractables.Count > 0) {
       var selectedInteractable = Selected;
       if (mostRecentSelected != selectedInteractable) {

@@ -23,6 +23,8 @@ public class PlayerInput : NetworkBehaviour {
   public override void OnNetworkSpawn() {
     Debug.Log("NetworkSpawn ran by client: " + OwnerClientId);
 
+    Hands.HighlightingEnabled = IsOwner;
+
     if (IsOwner) {
       if (controls == null) {
         controls = new PlayerControls();
