@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -17,19 +18,35 @@ public class PlayerInput : NetworkBehaviour {
   private bool activeMovementInput = false;
   private bool interacting = true;
 
-  private void Awake() {
-    if (controls == null) {
-      controls = new PlayerControls();
-    }
-    controls.GameControls.Move.performed += ctx => activeMovementInput = true;
-    controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; Movement.Stop(); };
-    controls.GameControls.GrabDrop.performed += ctx => PlayerInputServerRpc(InputAction.GrabDrop);
-    controls.GameControls.SelectUp.performed += ctx => PlayerInputServerRpc(InputAction.SelectUp);
-    controls.GameControls.SelectDown.performed += ctx => PlayerInputServerRpc(InputAction.SelectDown);
-    controls.GameControls.Interact.performed += ctx => PlayerInputServerRpc(InputAction.Interact);
-    controls.GameControls.Interact.canceled += ctx => PlayerInputServerRpc(InputAction.InteractEnd);
+  private readonly Dictionary<ulong, PlayerInput> clientIdToPlayerInput = new();
 
-    Hands.OnSelectedChange += () => OnInteractEnd();
+  public override void OnNetworkSpawn() {
+    Debug.Log("NetworkSpawn ran by client: " + OwnerClientId);
+
+    if (IsOwner) {
+      if (controls == null) {
+        controls = new PlayerControls();
+      }
+      controls.GameControls.Move.performed += ctx => activeMovementInput = true;
+      controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; Movement.Stop(); };
+      controls.GameControls.GrabDrop.performed += ctx => PlayerInputServerRpc(InputAction.GrabDrop, OwnerClientId);
+      controls.GameControls.SelectUp.performed += ctx => PlayerInputServerRpc(InputAction.SelectUp, OwnerClientId);
+      controls.GameControls.SelectDown.performed += ctx => PlayerInputServerRpc(InputAction.SelectDown, OwnerClientId);
+      controls.GameControls.Interact.performed += ctx => PlayerInputServerRpc(InputAction.Interact, OwnerClientId);
+      controls.GameControls.Interact.canceled += ctx => PlayerInputServerRpc(InputAction.InteractEnd, OwnerClientId);
+
+      Hands.OnSelectedChange += () => OnInteractEnd();
+
+      controls.Enable();
+    }
+
+    clientIdToPlayerInput[OwnerClientId] = this;
+    base.OnNetworkSpawn();
+  }
+
+  public override void OnNetworkDespawn() {
+    clientIdToPlayerInput.Remove(OwnerClientId);
+    base.OnNetworkDespawn();
   }
 
   private void FixedUpdate() {
@@ -73,15 +90,31 @@ public class PlayerInput : NetworkBehaviour {
   }
 
   private void OnEnable() {
-    controls.Enable();
+    if (controls != null) {
+      controls.Enable();
+    }
   }
 
   private void OnDisable() {
-    controls.Disable();
+    if (controls != null) {
+      controls.Disable();
+    }
   }
 
-  [ServerRpc]
-  private void PlayerInputServerRpc(InputAction inputAction) {
+  [ServerRpc(RequireOwnership = false)]
+  private void PlayerInputServerRpc(InputAction inputAction, ulong clientId) {
+    PlayerInputClientRpc(inputAction, clientId);
+  }
+
+  [ClientRpc]
+  private void PlayerInputClientRpc(InputAction inputAction, ulong clientId) {
+    if (OwnerClientId == clientId) {
+      Debug.Log("Client: " + clientId + " Did Action: " + inputAction.ToString());
+      DoAction(inputAction);
+    }
+  }
+
+  private void DoAction(InputAction inputAction) {
     switch (inputAction) {
       case InputAction.GrabDrop:
         OnGrabDrop();
@@ -102,4 +135,5 @@ public class PlayerInput : NetworkBehaviour {
         break;
     }
   }
+
 }
