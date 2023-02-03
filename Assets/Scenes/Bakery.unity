@@ -176,7 +176,6 @@ MonoBehaviour:
   serverButton: {fileID: 571406360}
   hostButton: {fileID: 281243495}
   clientButton: {fileID: 323857500}
-  transport: {fileID: 0}
 --- !u!1 &175906344
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,7 +1116,7 @@ MonoBehaviour:
   ConnectionData:
     Address: 10.0.0.37
     Port: 7777
-    ServerListenAddress: 
+    ServerListenAddress: 0.0.0.0
   DebugSimulator:
     PacketDelayMS: 0
     PacketJitterMS: 0
