@@ -37,7 +37,7 @@ public class PlayerInput : NetworkBehaviour {
       controls.GameControls.Interact.performed += ctx => PlayerInputServerRpc(InputAction.Interact, OwnerClientId);
       controls.GameControls.Interact.canceled += ctx => PlayerInputServerRpc(InputAction.InteractEnd, OwnerClientId);
 
-      Hands.OnSelectedChange += () => OnInteractEnd();
+      Hands.OnSelectedChange += () => PlayerInputServerRpc(InputAction.InteractEnd, OwnerClientId);
 
       controls.Enable();
     }
