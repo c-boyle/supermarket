@@ -29,8 +29,10 @@ public class PlayerInput : NetworkBehaviour {
       if (controls == null) {
         controls = new PlayerControls();
       }
-      controls.GameControls.Move.performed += ctx => PlayerSetActiveMovementServerRpc(true);
-      controls.GameControls.Move.canceled += ctx => PlayerSetActiveMovementServerRpc(false);
+      //controls.GameControls.Move.performed += ctx => { activeMovementInput = true; Movement.Move(controls.GameControls.Move.ReadValue<Vector2>()); };
+      //controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; Movement.Stop(); };
+      controls.GameControls.Move.performed += ctx => { PlayerSetActiveMovementServerRpc(true); PlayerMovementInputServerRpc(controls.GameControls.Move.ReadValue<Vector2>()); };
+      controls.GameControls.Move.canceled += ctx => { PlayerSetActiveMovementServerRpc(false); };
       controls.GameControls.GrabDrop.performed += ctx => PlayerInputServerRpc(InputAction.GrabDrop);
       controls.GameControls.SelectUp.performed += ctx => PlayerInputServerRpc(InputAction.SelectUp);
       controls.GameControls.SelectDown.performed += ctx => PlayerInputServerRpc(InputAction.SelectDown);
@@ -53,6 +55,7 @@ public class PlayerInput : NetworkBehaviour {
 
   private void FixedUpdate() {
     if (IsOwner && activeMovementInput) {
+      //Movement.Move(controls.GameControls.Move.ReadValue<Vector2>());
       PlayerMovementInputServerRpc(controls.GameControls.Move.ReadValue<Vector2>());
     }
   }
@@ -137,7 +140,9 @@ public class PlayerInput : NetworkBehaviour {
 
   [ClientRpc]
   private void PlayerMovementInputClientRpc(Vector2 movememntInput) {
-    Movement.Move(movememntInput);
+    if (movememntInput != Vector2.zero) {
+      Movement.Move(movememntInput);
+    }
   }
 
   private void DoAction(InputAction inputAction) {
