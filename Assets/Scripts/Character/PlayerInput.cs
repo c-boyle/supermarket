@@ -29,15 +29,15 @@ public class PlayerInput : NetworkBehaviour {
       if (controls == null) {
         controls = new PlayerControls();
       }
-      controls.GameControls.Move.performed += ctx => activeMovementInput = true;
-      controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; Movement.Stop(); };
-      controls.GameControls.GrabDrop.performed += ctx => PlayerInputServerRpc(InputAction.GrabDrop, OwnerClientId);
-      controls.GameControls.SelectUp.performed += ctx => PlayerInputServerRpc(InputAction.SelectUp, OwnerClientId);
-      controls.GameControls.SelectDown.performed += ctx => PlayerInputServerRpc(InputAction.SelectDown, OwnerClientId);
-      controls.GameControls.Interact.performed += ctx => PlayerInputServerRpc(InputAction.Interact, OwnerClientId);
-      controls.GameControls.Interact.canceled += ctx => PlayerInputServerRpc(InputAction.InteractEnd, OwnerClientId);
+      controls.GameControls.Move.performed += ctx => PlayerSetActiveMovementServerRpc(true);
+      controls.GameControls.Move.canceled += ctx => PlayerSetActiveMovementServerRpc(false);
+      controls.GameControls.GrabDrop.performed += ctx => PlayerInputServerRpc(InputAction.GrabDrop);
+      controls.GameControls.SelectUp.performed += ctx => PlayerInputServerRpc(InputAction.SelectUp);
+      controls.GameControls.SelectDown.performed += ctx => PlayerInputServerRpc(InputAction.SelectDown);
+      controls.GameControls.Interact.performed += ctx => PlayerInputServerRpc(InputAction.Interact);
+      controls.GameControls.Interact.canceled += ctx => PlayerInputServerRpc(InputAction.InteractEnd);
 
-      Hands.OnSelectedChange += () => PlayerInputServerRpc(InputAction.InteractEnd, OwnerClientId);
+      Hands.OnSelectedChange += () => PlayerInputServerRpc(InputAction.InteractEnd);
 
       controls.Enable();
     }
@@ -52,8 +52,8 @@ public class PlayerInput : NetworkBehaviour {
   }
 
   private void FixedUpdate() {
-    if (activeMovementInput) {
-      Movement.Move(controls.GameControls.Move.ReadValue<Vector2>());
+    if (IsOwner && activeMovementInput) {
+      PlayerMovementInputServerRpc(controls.GameControls.Move.ReadValue<Vector2>());
     }
   }
 
@@ -104,16 +104,40 @@ public class PlayerInput : NetworkBehaviour {
   }
 
   [ServerRpc(RequireOwnership = false)]
-  private void PlayerInputServerRpc(InputAction inputAction, ulong clientId) {
-    PlayerInputClientRpc(inputAction, clientId);
+  private void PlayerInputServerRpc(InputAction inputAction) {
+    PlayerInputClientRpc(inputAction);
   }
 
   [ClientRpc]
-  private void PlayerInputClientRpc(InputAction inputAction, ulong clientId) {
-    if (OwnerClientId == clientId) {
-      Debug.Log("Client: " + clientId + " Did Action: " + inputAction.ToString());
-      DoAction(inputAction);
+  private void PlayerInputClientRpc(InputAction inputAction) {
+    Debug.Log("Client: " + OwnerClientId + " Did Action: " + inputAction.ToString());
+    DoAction(inputAction);
+  }
+
+  [ServerRpc(RequireOwnership = false)]
+  private void PlayerSetActiveMovementServerRpc(bool activeMovementInput) {
+    PlayerSetActiveMovementClientRpc(activeMovementInput);
+  }
+
+  [ClientRpc]
+  private void PlayerSetActiveMovementClientRpc(bool activeMovementInput) {
+    if (this.activeMovementInput != activeMovementInput) {
+      Debug.Log("Client: " + OwnerClientId + " Set Active Movement To: " + activeMovementInput.ToString());
     }
+    this.activeMovementInput = activeMovementInput;
+    if (!activeMovementInput) {
+      Movement.Stop();
+    }
+  }
+
+  [ServerRpc(RequireOwnership = false)]
+  private void PlayerMovementInputServerRpc(Vector2 movementInput) {
+    PlayerMovementInputClientRpc(movementInput);
+  }
+
+  [ClientRpc]
+  private void PlayerMovementInputClientRpc(Vector2 movememntInput) {
+    Movement.Move(movememntInput);
   }
 
   private void DoAction(InputAction inputAction) {
