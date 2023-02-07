@@ -18,7 +18,7 @@ public class PlayerInput : NetworkBehaviour {
   private bool activeMovementInput = false;
   private bool interacting = true;
 
-  private readonly Dictionary<ulong, PlayerInput> clientIdToPlayerInput = new();
+  public static readonly Dictionary<ulong, PlayerInput> clientIdToPlayerInput = new();
 
   public override void OnNetworkSpawn() {
     Debug.Log("NetworkSpawn ran by client: " + OwnerClientId);
@@ -31,8 +31,6 @@ public class PlayerInput : NetworkBehaviour {
       }
       controls.GameControls.Move.performed += ctx => { activeMovementInput = true; Movement.Move(controls.GameControls.Move.ReadValue<Vector2>()); };
       controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; Movement.Stop(); };
-      //controls.GameControls.Move.performed += ctx => { PlayerSetActiveMovementServerRpc(true); PlayerMovementInputServerRpc(controls.GameControls.Move.ReadValue<Vector2>()); };
-      //controls.GameControls.Move.canceled += ctx => { PlayerSetActiveMovementServerRpc(false); };
       controls.GameControls.GrabDrop.performed += ctx => PlayerInputServerRpc(InputAction.GrabDrop);
       controls.GameControls.SelectUp.performed += ctx => PlayerInputServerRpc(InputAction.SelectUp);
       controls.GameControls.SelectDown.performed += ctx => PlayerInputServerRpc(InputAction.SelectDown);
@@ -56,7 +54,6 @@ public class PlayerInput : NetworkBehaviour {
   private void FixedUpdate() {
     if (IsOwner && activeMovementInput) {
       Movement.Move(controls.GameControls.Move.ReadValue<Vector2>());
-      //PlayerMovementInputServerRpc(controls.GameControls.Move.ReadValue<Vector2>());
     }
   }
 
@@ -106,7 +103,7 @@ public class PlayerInput : NetworkBehaviour {
     }
   }
 
-  [ServerRpc(RequireOwnership = false)]
+  [ServerRpc]
   private void PlayerInputServerRpc(InputAction inputAction) {
     PlayerInputClientRpc(inputAction);
   }
@@ -115,34 +112,6 @@ public class PlayerInput : NetworkBehaviour {
   private void PlayerInputClientRpc(InputAction inputAction) {
     Debug.Log("Client: " + OwnerClientId + " Did Action: " + inputAction.ToString());
     DoAction(inputAction);
-  }
-
-  [ServerRpc(RequireOwnership = false)]
-  private void PlayerSetActiveMovementServerRpc(bool activeMovementInput) {
-    PlayerSetActiveMovementClientRpc(activeMovementInput);
-  }
-
-  [ClientRpc]
-  private void PlayerSetActiveMovementClientRpc(bool activeMovementInput) {
-    if (this.activeMovementInput != activeMovementInput) {
-      Debug.Log("Client: " + OwnerClientId + " Set Active Movement To: " + activeMovementInput.ToString());
-    }
-    this.activeMovementInput = activeMovementInput;
-    if (!activeMovementInput) {
-      Movement.Stop();
-    }
-  }
-
-  [ServerRpc(RequireOwnership = false)]
-  private void PlayerMovementInputServerRpc(Vector2 movementInput) {
-    PlayerMovementInputClientRpc(movementInput);
-  }
-
-  [ClientRpc]
-  private void PlayerMovementInputClientRpc(Vector2 movememntInput) {
-    if (movememntInput != Vector2.zero) {
-      Movement.Move(movememntInput);
-    }
   }
 
   private void DoAction(InputAction inputAction) {
