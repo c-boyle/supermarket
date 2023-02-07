@@ -19,6 +19,14 @@ public class PlayerDetectingItemContainer : ItemContainer {
     }
   }
 
+  protected override void OnEnable() {
+    return;
+  }
+
+  protected override void OnDisable() {
+    return;
+  }
+
   private void Update() {
     if (!HighlightingEnabled) {
       return;

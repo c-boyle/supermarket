@@ -77,6 +77,19 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
     }
   }
 
+  public int Id { get; set; } = -1;
+
+  protected virtual void OnEnable() {
+    if (Id == -1) {
+      Id = PlayerInput.UnusedId;
+    }
+    PlayerInput.IdToInteractable[Id] = this;
+  }
+
+  protected virtual void OnDisable() {
+    PlayerInput.IdToInteractable.Remove(Id);
+  }
+
   public virtual void InteractStart(PlayerInput player) {
     player.Processor.StartProcessing(this);
   }

@@ -9,6 +9,19 @@ public class AutomaticProcessor : Processor, IInteractable {
   public bool Highlighted { get => highlightable.Highlighted; set => highlightable.Highlighted = value; }
   private bool firstRun = true;
 
+  public int Id { get; set; } = -1;
+
+  private void OnEnable() {
+    if (Id == -1) {
+      Id = PlayerInput.UnusedId;
+    }
+    PlayerInput.IdToInteractable[Id] = this;
+  }
+
+  private void OnDisable() {
+    PlayerInput.IdToInteractable.Remove(Id);
+  }
+
   public void InteractStart(PlayerInput player) {
     if (door != null) {
       door.IsOpen = false;

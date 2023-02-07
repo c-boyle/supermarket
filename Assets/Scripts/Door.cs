@@ -27,6 +27,19 @@ public class Door : MonoBehaviour, IInteractable {
 
   public Action OnOpen { get; set; }
 
+  public int Id { get; set; } = -1;
+
+  private void OnEnable() {
+    if (Id == -1) {
+      Id = PlayerInput.UnusedId;
+    }
+    PlayerInput.IdToInteractable[Id] = this;
+  }
+
+  private void OnDisable() {
+    PlayerInput.IdToInteractable.Remove(Id);
+  }
+
   public void InteractStart(PlayerInput player) {
     IsOpen = !IsOpen;
   }

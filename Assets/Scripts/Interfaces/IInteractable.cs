@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IInteractable : IHighlightable {
   public void InteractStart(PlayerInput player);
   public void InteractStop(PlayerInput player);
+  public int Id { get; set; }
 }
