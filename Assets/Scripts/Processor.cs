@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
-public class Processor : NetworkBehaviour {
+public class Processor : MonoBehaviour {
   [SerializeField] private ProcessorData processorData;
   private Coroutine processingRoutine;
   protected bool Processing { get => processingRoutine != null; }
@@ -11,7 +10,7 @@ public class Processor : NetworkBehaviour {
   public void StartProcessing(ItemContainer container) {
     if (processingRoutine == null && container != null) {
       processingRoutine = StartCoroutine(Process(container));
-      Debug.Log("Processor " + name + " Started At Time: " + System.DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:ff"));
+      Debug.Log("Processor " + name + " Started");
     }
   }
 
@@ -19,7 +18,7 @@ public class Processor : NetworkBehaviour {
     if (processingRoutine != null) {
       StopCoroutine(processingRoutine);
       processingRoutine = null;
-      Debug.Log("Processor " + name + " Stopped At Time: " + System.DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:ff"));
+      Debug.Log("Processor " + name + " Stopped");
     }
   }
 
@@ -46,6 +45,6 @@ public class Processor : NetworkBehaviour {
     }
 
     processingRoutine = null;
-    Debug.Log("Processor " + name + " Complete At Time: " + System.DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:ff"));
+    Debug.Log("Processor " + name + " Complete");
   }
 }

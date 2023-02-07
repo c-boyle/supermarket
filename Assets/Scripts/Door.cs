@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.Netcode;
 
-public class Door : NetworkBehaviour, IInteractable {
+public class Door : MonoBehaviour, IInteractable {
 
   [SerializeField] private Transform hingePoint;
   [SerializeField] private Highlightable highlightable;
@@ -43,27 +42,5 @@ public class Door : NetworkBehaviour, IInteractable {
 
   private void CloseDoor() {
     transform.RotateAround(hingePoint.position, Vector3.up, -90f);
-  }
-
-  [ServerRpc]
-  public void InteractServerRpc(bool interactStart, ulong playerOwnerId) {
-    if (interactStart) {
-      InteractStart(PlayerInput.clientIdToPlayerInput[playerOwnerId]);
-    } else {
-      InteractStop(PlayerInput.clientIdToPlayerInput[playerOwnerId]);
-    }
-    InteractClientRpc(interactStart, playerOwnerId);
-  }
-  [ClientRpc]
-  public void InteractClientRpc(bool interactStart, ulong playerOwnerId) {
-    if (IsServer) {
-      return;
-    }
-
-    if (interactStart) {
-      InteractStart(PlayerInput.clientIdToPlayerInput[playerOwnerId]);
-    } else {
-      InteractStop(PlayerInput.clientIdToPlayerInput[playerOwnerId]);
-    }
   }
 }

@@ -22,9 +22,6 @@ public class NetworkCommandLine : MonoBehaviour {
       if (args.TryGetValue("-port", out string port)) {
         transport.ConnectionData.Port = ushort.Parse(port);
       }
-      if (args.TryGetValue("-delay", out string delay)) {
-        transport.DebugSimulator.PacketDelayMS = int.Parse(delay);
-      }
 
       switch (mode) {
         case "server":

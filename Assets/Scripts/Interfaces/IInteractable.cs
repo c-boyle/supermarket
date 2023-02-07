@@ -1,10 +1,8 @@
-using Unity.Netcode;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public interface IInteractable : IHighlightable {
   public void InteractStart(PlayerInput player);
   public void InteractStop(PlayerInput player);
-  [ServerRpc]
-  public void InteractServerRpc(bool interactStart, ulong playerOwnerId);
-  [ClientRpc]
-  public void InteractClientRpc(bool interactStart, ulong playerOwnerId);
 }

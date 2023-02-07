@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode;
 
-public class ItemContainer : NetworkBehaviour, IHighlightable, IInteractable {
+public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
   [SerializeField] private AcceptedItemsData acceptedItemsData;
   [SerializeField] private List<ContainerSlot> containerSlots = new();
   [SerializeField] private Highlightable highlighting;
@@ -187,27 +186,6 @@ public class ItemContainer : NetworkBehaviour, IHighlightable, IInteractable {
     }
     containerSlots[slot].ContainedItem.ContainedBy = null;
     containerSlots[slot].ContainedItem = null;
-  }
-  [ServerRpc]
-  public void InteractServerRpc(bool interactStart, ulong playerOwnerId) {
-    if (interactStart) {
-      InteractStart(PlayerInput.clientIdToPlayerInput[playerOwnerId]);
-    } else {
-      InteractStop(PlayerInput.clientIdToPlayerInput[playerOwnerId]);
-    }
-    InteractClientRpc(interactStart, playerOwnerId);
-  }
-  [ClientRpc]
-  public void InteractClientRpc(bool interactStart, ulong playerOwnerId) {
-    if (IsServer) {
-      return;
-    }
-
-    if (interactStart) {
-      InteractStart(PlayerInput.clientIdToPlayerInput[playerOwnerId]);
-    } else {
-      InteractStop(PlayerInput.clientIdToPlayerInput[playerOwnerId]);
-    }
   }
 
   [System.Serializable]
