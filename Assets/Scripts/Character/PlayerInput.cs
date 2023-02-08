@@ -50,13 +50,13 @@ public class PlayerInput : NetworkBehaviour {
         }
       };
       controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; Movement.Stop(); };
-      controls.GameControls.GrabDrop.performed += ctx => PlayerInputServerRpc(InputAction.GrabDrop);
-      controls.GameControls.SelectUp.performed += ctx => PlayerInputServerRpc(InputAction.SelectUp);
-      controls.GameControls.SelectDown.performed += ctx => PlayerInputServerRpc(InputAction.SelectDown);
+      controls.GameControls.GrabDrop.performed += ctx => { var selected = Hands.Selected; PlayerInputServerRpc(InputAction.GrabDrop, selected == null ? -1 : selected.Id); };
+      controls.GameControls.SelectUp.performed += ctx => { var selected = Hands.Selected; PlayerInputServerRpc(InputAction.SelectUp, selected == null ? -1 : selected.Id); };
+      controls.GameControls.SelectDown.performed += ctx => { var selected = Hands.Selected; PlayerInputServerRpc(InputAction.SelectDown, selected == null ? -1 : selected.Id); };
       controls.GameControls.Interact.performed += ctx => OnRequestInteract(true);
       controls.GameControls.Interact.canceled += ctx => OnRequestInteract(false);
 
-      Hands.OnSelectedChange += () => PlayerInputServerRpc(InputAction.InteractEnd, Hands.Selected == null ? -1 : Hands.Selected.Id);
+      Hands.OnSelectedChange += () => OnRequestInteract(false);
 
       controls.Enable();
     }
@@ -119,11 +119,11 @@ public class PlayerInput : NetworkBehaviour {
     }
   }
 
-  private void OnGrabDrop() {
+  private void OnGrabDrop(IInteractable selected) {
     if (Hands.ContainedCount > 0) {
-      Hands.PutDownItem();
+      Hands.PutDownItem(selected);
     } else {
-      Hands.PickupItem();
+      Hands.PickupItem(selected);
     }
   }
 
@@ -200,7 +200,7 @@ public class PlayerInput : NetworkBehaviour {
     Debug.Log("Client: " + OwnerClientId + " Did Action: " + inputAction.ToString());
     switch (inputAction) {
       case InputAction.GrabDrop:
-        OnGrabDrop();
+        OnGrabDrop(interactable);
         break;
       case InputAction.SelectUp:
         OnSelectUp();
