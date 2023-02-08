@@ -40,13 +40,21 @@ public class PlayerInput : NetworkBehaviour {
       if (controls == null) {
         controls = new PlayerControls();
       }
-      controls.GameControls.Move.performed += ctx => { activeMovementInput = true; Movement.Move(controls.GameControls.Move.ReadValue<Vector2>()); };
+      controls.GameControls.Move.performed += ctx => {
+        activeMovementInput = true;
+        Vector3 oldForward = Movement.transform.forward;
+        Movement.Move(controls.GameControls.Move.ReadValue<Vector2>());
+        Vector3 newForward = Movement.transform.forward;
+        if (oldForward != newForward && Movement.RotationEnabled) {
+          PlayerRotateServerRpc(newForward);
+        }
+      };
       controls.GameControls.Move.canceled += ctx => { activeMovementInput = false; Movement.Stop(); };
       controls.GameControls.GrabDrop.performed += ctx => PlayerInputServerRpc(InputAction.GrabDrop);
       controls.GameControls.SelectUp.performed += ctx => PlayerInputServerRpc(InputAction.SelectUp);
       controls.GameControls.SelectDown.performed += ctx => PlayerInputServerRpc(InputAction.SelectDown);
-      controls.GameControls.Interact.performed += ctx => PlayerInputServerRpc(InputAction.Interact, Hands.Selected == null ? -1 : Hands.Selected.Id);
-      controls.GameControls.Interact.canceled += ctx => PlayerInputServerRpc(InputAction.InteractEnd, Hands.Selected == null ? -1 : Hands.Selected.Id);
+      controls.GameControls.Interact.performed += ctx => OnRequestInteract(true);
+      controls.GameControls.Interact.canceled += ctx => OnRequestInteract(false);
 
       Hands.OnSelectedChange += () => PlayerInputServerRpc(InputAction.InteractEnd, Hands.Selected == null ? -1 : Hands.Selected.Id);
 
@@ -64,13 +72,30 @@ public class PlayerInput : NetworkBehaviour {
 
   private void FixedUpdate() {
     if (IsOwner && activeMovementInput) {
+      Vector3 oldForward = Movement.transform.forward;
       Movement.Move(controls.GameControls.Move.ReadValue<Vector2>());
+      Vector3 newForward = Movement.transform.forward;
+      if (Movement.RotationEnabled && oldForward != newForward) {
+        PlayerRotateServerRpc(newForward);
+      }
     }
+  }
+
+  private void OnRequestInteract(bool interactStart) {
+    var interactAction = interactStart ? InputAction.Interact : InputAction.InteractEnd;
+    var selected = Hands.Selected;
+    if (interactStart && selected is PushableItemContainer) {
+      Movement.Stop();
+      Movement.RotationEnabled = false;
+      Movement.MovementEnabled = false;
+    }
+    PlayerInputServerRpc(interactAction, selected == null ? -1 : selected.Id);
   }
 
   private void OnInteract(IInteractable interactable) {
     if (interactable != null) {
       interactable.InteractStart(this);
+      Movement.MovementEnabled = true;
       interacting = true;
     }
   }
@@ -115,25 +140,56 @@ public class PlayerInput : NetworkBehaviour {
   }
 
   [ServerRpc(RequireOwnership = false)]
+  private void PlayerRotateServerRpc(Vector3 forward) {
+    if (!IsOwner && Movement.RotationEnabled) {
+      transform.forward = forward;
+    }
+    PlayerRotateClientRpc(forward);
+  }
+
+  [ClientRpc]
+  private void PlayerRotateClientRpc(Vector3 forward) {
+    if (!IsServer && !IsOwner && Movement.RotationEnabled) {
+      transform.forward = forward;
+    }
+  }
+
+  [ServerRpc(RequireOwnership = false)]
   private void PlayerInputServerRpc(InputAction inputAction, int interactableId = -1) {
     if (interactableId == -1) {
       DoAction(inputAction);
       PlayerInputClientRpc(inputAction);
     } else if (IdToInteractable.TryGetValue(interactableId, out var interactable)) {
       DoAction(inputAction, interactable);
-      PlayerInputClientRpc(inputAction, interactableId);
+      if (interactable is PushableItemContainer) {
+        var interactableTransform = (IdToInteractable[interactableId] as MonoBehaviour).transform;
+        PlayerInteractPushableContainerClientRpc(inputAction, interactableId, interactableTransform.localPosition, Quaternion.identity);
+      } else {
+        PlayerInputClientRpc(inputAction, interactableId);
+      }
     }
   }
 
   [ClientRpc]
   private void PlayerInputClientRpc(InputAction inputAction, int interactableId = -1) {
-    Debug.Log("Client: " + OwnerClientId + " Did Action: " + inputAction.ToString());
     if (!IsServer) {
       DoAction(inputAction, interactableId == -1 ? null : IdToInteractable[interactableId]);
     }
   }
 
+  [ClientRpc]
+  private void PlayerInteractPushableContainerClientRpc(InputAction inputAction, int interactableId, Vector3 position, Quaternion rotation) {
+    if (!IsServer) {
+      DoAction(inputAction, IdToInteractable[interactableId]);
+      var interactableTransform = (IdToInteractable[interactableId] as MonoBehaviour).transform;
+      interactableTransform.localPosition = position;
+      interactableTransform.rotation = rotation;
+      Debug.Log("Client Rpc with rotation: " + rotation.eulerAngles);
+    }
+  }
+
   private void DoAction(InputAction inputAction, IInteractable interactable = null) {
+    Debug.Log("Client: " + OwnerClientId + " Did Action: " + inputAction.ToString());
     switch (inputAction) {
       case InputAction.GrabDrop:
         OnGrabDrop();

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class CharacterMovement : MonoBehaviour {
   [SerializeField] private Rigidbody rb;
@@ -17,9 +18,13 @@ public class CharacterMovement : MonoBehaviour {
     }
   }
 
+  public bool MovementEnabled { get; set; } = true;
+
   public void Move(Vector2 input) {
     var motion = new Vector3(input.x * speed, 0f, input.y * speed);
-    rb.velocity = motion;
+    if (MovementEnabled) {
+      rb.velocity = motion;
+    }
     if (RotationEnabled) {
       transform.forward = motion; // Should replace this with something rigidbody dependant
     }

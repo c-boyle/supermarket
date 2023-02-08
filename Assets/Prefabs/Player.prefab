@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 7788057090340213331}
   - component: {fileID: 7788057090340213340}
   - component: {fileID: 8900130698002381324}
-  - component: {fileID: 4897897468531012161}
-  - component: {fileID: 8521230145877905033}
+  - component: {fileID: 8654739859842198426}
+  - component: {fileID: 4172018184592039251}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -166,7 +166,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &4897897468531012161
+--- !u!114 &8654739859842198426
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,17 +182,17 @@ MonoBehaviour:
   SyncPositionY: 0
   SyncPositionZ: 1
   SyncRotAngleX: 0
-  SyncRotAngleY: 1
+  SyncRotAngleY: 0
   SyncRotAngleZ: 0
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
   PositionThreshold: 0.001
-  RotAngleThreshold: 33
+  RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
---- !u!114 &8521230145877905033
+--- !u!114 &4172018184592039251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -350,8 +350,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.81860495, y: 5.205374, z: 2.507819}
-  m_Center: {x: -0.090697676, y: -0.11533607, z: 0.05304335}
+  m_Size: {x: 0.81860495, y: 5.205374, z: 1.4877673}
+  m_Center: {x: -0.090697676, y: -0.11533607, z: 0.06985808}
 --- !u!114 &7788057091149876013
 MonoBehaviour:
   m_ObjectHideFlags: 0
