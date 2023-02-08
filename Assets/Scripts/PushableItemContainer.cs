@@ -21,6 +21,9 @@ public class PushableItemContainer : ItemContainer {
 
       player.Movement.RotationEnabled = true;
       player.Hands.PickUpAndDropEnabled = true;
+      if (!player.Hands.GetComponent<Collider>().bounds.Intersects(GetComponent<Collider>().bounds)) {
+        player.Hands.OnTriggerExit(GetComponent<Collider>());
+      }
     }
   }
 

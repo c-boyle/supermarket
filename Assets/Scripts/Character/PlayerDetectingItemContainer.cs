@@ -60,7 +60,7 @@ public class PlayerDetectingItemContainer : ItemContainer {
     }
   }
 
-  private void OnTriggerExit(Collider other) {
+  public void OnTriggerExit(Collider other) {
     if (other.gameObject.TryGetComponent(out IInteractable interactable)) {
       if (interactable == mostRecentSelected) {
         interactable.Highlighted = false;
