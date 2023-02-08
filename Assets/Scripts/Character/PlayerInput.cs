@@ -160,11 +160,16 @@ public class PlayerInput : NetworkBehaviour {
       DoAction(inputAction);
       PlayerInputClientRpc(inputAction);
     } else if (IdToInteractable.TryGetValue(interactableId, out var interactable)) {
-      DoAction(inputAction, interactable);
       if (interactable is PushableItemContainer) {
         var interactableTransform = (IdToInteractable[interactableId] as MonoBehaviour).transform;
+        var dir = interactableTransform.position - transform.position;
+        dir.y = 0;
+        dir = dir.normalized;
+        transform.forward = dir;
+        DoAction(inputAction, interactable);
         PlayerInteractPushableContainerClientRpc(inputAction, interactableId, interactableTransform.localPosition, Quaternion.identity);
       } else {
+        DoAction(inputAction, interactable);
         PlayerInputClientRpc(inputAction, interactableId);
       }
     }
@@ -180,11 +185,14 @@ public class PlayerInput : NetworkBehaviour {
   [ClientRpc]
   private void PlayerInteractPushableContainerClientRpc(InputAction inputAction, int interactableId, Vector3 position, Quaternion rotation) {
     if (!IsServer) {
-      DoAction(inputAction, IdToInteractable[interactableId]);
       var interactableTransform = (IdToInteractable[interactableId] as MonoBehaviour).transform;
+      var dir = interactableTransform.position - transform.position;
+      dir.y = 0;
+      dir = dir.normalized;
+      transform.forward = dir;
+      DoAction(inputAction, IdToInteractable[interactableId]);
       interactableTransform.localPosition = position;
       interactableTransform.rotation = rotation;
-      Debug.Log("Client Rpc with rotation: " + rotation.eulerAngles);
     }
   }
 
