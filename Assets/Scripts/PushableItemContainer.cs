@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PushableItemContainer : ItemContainer {
-   public bool beingHeld = false;
+   private bool beingHeld = false;
    private Transform originalParent = null;
 
   public override void InteractStart(PlayerInput player) {
