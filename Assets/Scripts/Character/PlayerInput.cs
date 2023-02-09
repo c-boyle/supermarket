@@ -160,7 +160,7 @@ public class PlayerInput : NetworkBehaviour {
       DoAction(inputAction);
       PlayerInputClientRpc(inputAction);
     } else if (IdToInteractable.TryGetValue(interactableId, out var interactable)) {
-      if (interactable is PushableItemContainer) {
+      if (inputAction == InputAction.Interact && interactable is PushableItemContainer) {
         var interactableTransform = (IdToInteractable[interactableId] as MonoBehaviour).transform;
         var dir = interactableTransform.position - transform.position;
         dir.y = 0;
