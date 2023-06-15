@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// An item container that contains all items within a 3d space.
+/// </summary>
+
 public class DetectingItemContainer : ItemContainer {
   private readonly HashSet<ItemContainer> inColliderContainers = new();
 
+  /// <summary>
+  /// The list of items that are in the space owned by this item container.
+  /// </summary>
   public override List<Item> ContainedItems {
     get {
       List<Item> containedItems = new();
@@ -16,8 +23,10 @@ public class DetectingItemContainer : ItemContainer {
     }
   }
 
-  /* Right now this uses a primitive solution of checking which container is closest to this detecting item container */
-  /* Gets called every frame right now, pretty inefficient as it stands */
+  /* 
+   * Right now this uses a primitive solution of checking which container is closest to this detecting item container.
+   * It gets called roughly every frame right now, pretty inefficient as it stands.
+   */ 
   public ItemContainer SelectedContainer {
     get {
       return Helpers.GetNearest(transform.position, inColliderContainers);

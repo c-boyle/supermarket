@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// An interactable door that can be opened and closed.
+/// </summary>
+
 public class Door : MonoBehaviour, IInteractable {
 
   [SerializeField] private Transform hingePoint;

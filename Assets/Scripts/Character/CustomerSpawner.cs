@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
+/// <summary>
+/// A class for spawning customers using object pooling.
+/// </summary>
+
 public class CustomerSpawner : MonoBehaviour {
   [SerializeField] private List<CustomerInput> possibleCustomers;
   [SerializeField] private List<Order> possibleOrders;

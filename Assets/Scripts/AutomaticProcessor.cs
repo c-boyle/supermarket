@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A processor that automatically processes the items in its container (instead of being processed by a player manually).
+/// </summary>
+
 public class AutomaticProcessor : Processor, IInteractable {
   [field: SerializeField] public ItemContainer Container { get; private set; }
   [SerializeField] private Highlightable highlightable;

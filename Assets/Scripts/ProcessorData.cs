@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MyBox;
+
+/// <summary>
+/// A data class that represents what a processor can process and what it gets processed into.
+/// </summary>
 
 [CreateAssetMenu(fileName = nameof(ProcessorData), menuName = "ScriptableObjects/" + nameof(ProcessorData))]
 public class ProcessorData : ScriptableObject {

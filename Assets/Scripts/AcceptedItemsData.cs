@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A data structure of the items that an item container can accept and contain.
+/// </summary>
+
 [CreateAssetMenu(fileName = nameof(AcceptedItemsData), menuName = "ScriptableObjects/" + nameof(AcceptedItemsData))]
 public class AcceptedItemsData : ScriptableObject {
   [SerializeField] private SerializedHashSet<ItemData> _acceptedItems;

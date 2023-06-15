@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+/// <summary>
+/// A special kind of item container intended to be used by player characters to detect when items
+/// are within their reach, and pick up or put down said items.
+/// </summary>
+
 public class PlayerDetectingItemContainer : ItemContainer {
   private readonly HashSet<IInteractable> inColliderInteractables = new();
   private IInteractable mostRecentSelected = null;
@@ -11,8 +16,10 @@ public class PlayerDetectingItemContainer : ItemContainer {
   public bool PickUpAndDropEnabled { get; set; } = true;
   public bool HighlightingEnabled { get; set; } = true;
 
-  /* Right now this uses a primitive solution of checking which container is closest to this detecting item container */
-  /* Gets called every frame right now, pretty inefficient as it stands */
+  /* 
+   * Right now this uses a primitive solution of checking which container is closest to this detecting item container.
+   * It gets called roughly every frame right now, pretty inefficient as it stands.
+   */ 
   public IInteractable Selected {
     get {
       return Helpers.GetNearest(transform.position, inColliderInteractables);

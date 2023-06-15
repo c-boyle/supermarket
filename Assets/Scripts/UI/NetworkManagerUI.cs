@@ -5,11 +5,15 @@ using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A temporary script used for testing network operations.
+/// </summary>
+
 public class NetworkManagerUI : MonoBehaviour {
   [SerializeField] private Button serverButton;
   [SerializeField] private Button hostButton;
   [SerializeField] private Button clientButton;
-  private bool doShow = false;
+  private bool show = false;
 
   private void Awake() {
     serverButton.onClick.AddListener(() => {
@@ -21,17 +25,17 @@ public class NetworkManagerUI : MonoBehaviour {
     clientButton.onClick.AddListener(() => {
       NetworkManager.Singleton.StartClient();
     });
-    serverButton.gameObject.SetActive(doShow);
-    hostButton.gameObject.SetActive(doShow);
-    clientButton.gameObject.SetActive(doShow);
+    serverButton.gameObject.SetActive(show);
+    hostButton.gameObject.SetActive(show);
+    clientButton.gameObject.SetActive(show);
   }
 
   private void Update() {
     if (Input.GetKeyDown(KeyCode.P)) {
-      doShow = !doShow;
-      serverButton.gameObject.SetActive(doShow);
-      hostButton.gameObject.SetActive(doShow);
-      clientButton.gameObject.SetActive(doShow);
+      show = !show;
+      serverButton.gameObject.SetActive(show);
+      hostButton.gameObject.SetActive(show);
+      clientButton.gameObject.SetActive(show);
     }
   }
 }

@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A container for game items.
+/// </summary>
+
 public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
   [SerializeField] private AcceptedItemsData acceptedItemsData;
   [SerializeField] private List<ContainerSlot> containerSlots = new();

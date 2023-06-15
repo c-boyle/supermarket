@@ -4,6 +4,10 @@ using UnityEngine;
 using System;
 using System.Linq;
 
+/// <summary>
+/// A class of general purpose helper functions.
+/// </summary>
+
 public static class Helpers {
   public static T GetNearest<T>(Vector3 position, IEnumerable<T> targets, Predicate<T> inclusionCriteria = null) where T : IInteractable {
     T nearest = default;

@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A special item container class that can be pushed around by characters.
+/// </summary>
+
 public class PushableItemContainer : ItemContainer {
    private bool beingHeld = false;
    private Transform originalParent = null;

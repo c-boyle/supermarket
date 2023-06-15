@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class that handles the processing of one item into another (example: cookie dough into baked cookies).
+/// </summary>
+
 public class Processor : MonoBehaviour {
   [SerializeField] private ProcessorData processorData;
   private Coroutine processingRoutine;
@@ -10,7 +14,7 @@ public class Processor : MonoBehaviour {
   public void StartProcessing(ItemContainer container) {
     if (processingRoutine == null && container != null) {
       processingRoutine = StartCoroutine(Process(container));
-      Debug.Log("Processor " + name + " Started");
+      Debug.Log("Processor " + name + " started");
     }
   }
 
@@ -18,7 +22,7 @@ public class Processor : MonoBehaviour {
     if (processingRoutine != null) {
       StopCoroutine(processingRoutine);
       processingRoutine = null;
-      Debug.Log("Processor " + name + " Stopped");
+      Debug.Log("Processor " + name + " stopped");
     }
   }
 
@@ -34,9 +38,9 @@ public class Processor : MonoBehaviour {
     yield return new WaitForSeconds(processorData.RequiredTime);
 
     foreach (var kvp in beforeProcessToProcessed) {
-      var beforeItem = kvp.Key;
-      var beforeTransform = beforeItem.transform;
-      var newItem = Instantiate(kvp.Value, beforeTransform.position, beforeTransform.rotation, beforeTransform.parent);
+      Item beforeItem = kvp.Key;
+      Transform beforeTransform = beforeItem.transform;
+      Item newItem = Instantiate(kvp.Value, beforeTransform.position, beforeTransform.rotation, beforeTransform.parent);
       newItem.ContainedBy = beforeItem.ContainedBy;
       newItem.Highlighted = beforeItem.Highlighted;
       int slot = beforeItem.ContainedBy.RemoveItem(beforeItem);
@@ -45,6 +49,6 @@ public class Processor : MonoBehaviour {
     }
 
     processingRoutine = null;
-    Debug.Log("Processor " + name + " Complete");
+    Debug.Log("Processor " + name + " complete");
   }
 }

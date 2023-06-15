@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The order data structure.
+/// </summary>
+
 [System.Serializable]
 public class Order {
   [SerializeField] private List<ItemOrder> items = new();
@@ -21,10 +25,8 @@ public class Order {
   public bool IsSatisfiedBy(ItemContainer container) {
     Dictionary<ItemData, int> containedItemToQuantity = new();
     foreach (var containedItem in container.ContainedItems) {
-      int itemCount = 1;
-      if (containedItemToQuantity.TryGetValue(containedItem.Data, out int quantity)) {
-        itemCount = quantity + 1;
-      }
+      int itemCount = containedItemToQuantity.TryGetValue(containedItem.Data, out int quantity) ? quantity + 1 : 1;
+
       containedItemToQuantity[containedItem.Data] = itemCount;
     }
     foreach (var order in items) {

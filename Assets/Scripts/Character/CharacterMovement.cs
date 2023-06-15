@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+/// <summary>
+/// Simple top down character movement class.
+/// </summary>
+
 public class CharacterMovement : MonoBehaviour {
   [SerializeField] private Rigidbody rb;
   [SerializeField] private float speed = 1f;

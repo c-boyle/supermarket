@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+/// <summary>
+/// Handles hooking up input from a player to their character and sending player input actions over the network.
+/// </summary>
+
 public class PlayerInput : NetworkBehaviour {
   private enum InputAction {
     GrabDrop,
@@ -191,6 +195,7 @@ public class PlayerInput : NetworkBehaviour {
       dir = dir.normalized;
       transform.forward = dir;
       DoAction(inputAction, IdToInteractable[interactableId]);
+      // To avoid discontinuties between clients, the pushable container needs to be realigned.
       interactableTransform.localPosition = position;
       interactableTransform.rotation = rotation;
     }

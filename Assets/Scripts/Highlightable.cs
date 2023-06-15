@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles the highlighting and un-highlighting of a game object.
+/// </summary>
+
 public class Highlightable : MonoBehaviour, IHighlightable {
   [SerializeField] private List<Renderer> renderersToHighlight = new();
 
