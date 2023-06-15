@@ -3,9 +3,10 @@ An online co-op game where you run a supermarket with your friends in different 
 
 # Screenshots & Videos
 
-# Built With
+# Built with
 - [Unity](https://unity.com/)
 - [Unity Netcode](https://unity.com/products/netcode)
+- C#
 
 # Features
 
@@ -27,7 +28,7 @@ Supermarket is something I develop individually in my free time, so progress wil
 I will continue to develop code for the game, and I also plan to learn Blender so I can make my own art for the game as well. 
 Finally, I practice music production with Ableton in my free time, and would like to make the music for the game too.
 
-# What I've Learned So Far
+# What I have learned so far
 - I'd never made a networked multiplayer game before and really enjoyed learning how to use Unity's Netcode API.
 - The difference between client-authoritative and server-authoritative as well as their respective pros and cons.
 - What Remote Procedure Calls are and how they are meant to be used.
