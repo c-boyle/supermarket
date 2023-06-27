@@ -23,6 +23,11 @@ public class CustomerInput : MonoBehaviour {
 
   public IObjectPool<CustomerInput> Pool { get; set; }
 
+  public void ResetCustomer() {
+    container.DestroyAllItems();
+    container.Highlighted = false;
+  }
+
   private void OnEnable() {
     container.OnItemAdded += CheckOrderSatisfied;
   }
@@ -33,9 +38,7 @@ public class CustomerInput : MonoBehaviour {
 
   private void CheckOrderSatisfied() {
     if (Order.IsSatisfiedBy(container)) {
-      // Release this customer then spawn a new one
       Pool.Release(this);
-      Pool.Get();
     }
   }
 

@@ -10,6 +10,7 @@ using UnityEngine.Pool;
 public class CustomerSpawner : MonoBehaviour {
   [SerializeField] private List<CustomerInput> possibleCustomers;
   [SerializeField] private List<Order> possibleOrders;
+  [SerializeField] private float respawnTime = 3f;
   private IObjectPool<CustomerInput> _customerPool = null;
   private IObjectPool<CustomerInput> CustomerPool {
     get {
@@ -34,7 +35,9 @@ public class CustomerSpawner : MonoBehaviour {
   }
 
   private void OnReturnedToPool(CustomerInput customer) {
+    customer.ResetCustomer();
     customer.gameObject.SetActive(false);
+    StartCoroutine(Helpers.InvokeAfterDelay(() => CustomerPool.Get(), respawnTime));
   }
 
   private void OnTakeFromPool(CustomerInput customer) {

@@ -29,7 +29,15 @@ public class DetectingItemContainer : ItemContainer {
    */ 
   public ItemContainer SelectedContainer {
     get {
-      return Helpers.GetNearest(transform.position, inColliderContainers);
+      ItemContainer selected = null;
+      do {
+        selected = Helpers.GetNearest(transform.position, inColliderContainers);
+        bool selectedFoundButInactive = selected != null && !selected.gameObject.activeInHierarchy;
+        if (selectedFoundButInactive) {
+          inColliderContainers.Remove(selected);
+        }
+      } while (selected != null && !inColliderContainers.Contains(selected));
+      return selected;
     }
   }
 

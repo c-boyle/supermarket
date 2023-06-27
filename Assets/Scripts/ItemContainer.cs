@@ -35,6 +35,7 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
   /// </summary>
   public virtual List<Item> ContainedItems {
     get {
+      // TODO (add cache this list)
       List<Item> containedItems = new();
       foreach (var slot in containerSlots) {
         if (slot.ContainedItem != null) {
@@ -180,6 +181,19 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
     AddItem(itemToTake);
   }
 
+  /// <summary>
+  /// Can be used to empty an item container.
+  /// </summary>
+  public void DestroyAllItems() {
+    for (int i = 0; i < containerSlots.Count; i++) {
+      Item itemToDestroy = containerSlots[i].ContainedItem;
+      RemoveItem(i);
+      if (itemToDestroy != null) {
+        Destroy(itemToDestroy.gameObject);
+      }
+    }
+  }
+
   private bool AcceptsItem(Item item) {
     return item != null && acceptedItemsData != null && acceptedItemsData.AcceptedItems.Contains(item.Data);
   }
@@ -197,11 +211,11 @@ public class ItemContainer : MonoBehaviour, IHighlightable, IInteractable {
   private void RemoveItem(int slot) {
     if (containerSlots[slot].ContainedItem != null) {
       containerSlots[slot].ContainedItem.Highlighted = false;
+      containerSlots[slot].ContainedItem.ContainedBy = null;
     }
     if (selectedContainerSlotIndex == slot) {
       selectedContainerSlotIndex = -1;
     }
-    containerSlots[slot].ContainedItem.ContainedBy = null;
     containerSlots[slot].ContainedItem = null;
   }
 

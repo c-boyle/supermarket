@@ -22,7 +22,15 @@ public class PlayerDetectingItemContainer : ItemContainer {
    */ 
   public IInteractable Selected {
     get {
-      return Helpers.GetNearest(transform.position, inColliderInteractables);
+      IInteractable selected = null;
+      do {
+        selected = Helpers.GetNearest(transform.position, inColliderInteractables);
+        bool selectedFoundButInactive = selected != null && selected is MonoBehaviour monoBehaviour && !monoBehaviour.gameObject.activeInHierarchy;
+        if (selectedFoundButInactive) {
+          inColliderInteractables.Remove(selected);
+        }
+      } while (selected != null && !inColliderInteractables.Contains(selected));
+      return selected;
     }
   }
 

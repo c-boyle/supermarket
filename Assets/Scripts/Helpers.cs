@@ -9,6 +9,9 @@ using System.Linq;
 /// </summary>
 
 public static class Helpers {
+  /// <summary>
+  /// Gets the nearest interactable to the given position.
+  /// </summary>
   public static T GetNearest<T>(Vector3 position, IEnumerable<T> targets, Predicate<T> inclusionCriteria = null) where T : IInteractable {
     T nearest = default;
     float nearestDist = float.MaxValue;
@@ -31,5 +34,10 @@ public static class Helpers {
   // Cite: https://stackoverflow.com/questions/3804367/testing-for-equality-between-dictionaries-in-c-sharp
   public static bool DictionaryContentsEqual<TKey, TValue>(Dictionary<TKey, TValue> dic1, Dictionary<TKey, TValue> dic2) {
     return dic1.Count == dic2.Count && !dic1.Except(dic2).Any();
+  }
+
+  public static IEnumerator InvokeAfterDelay(Action action, float delaySeconds) {
+    yield return new WaitForSeconds(delaySeconds);
+    action?.Invoke();
   }
 }
