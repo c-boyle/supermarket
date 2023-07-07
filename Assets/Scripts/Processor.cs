@@ -7,18 +7,18 @@ using UnityEngine;
 /// </summary>
 
 public class Processor : MonoBehaviour {
-  [SerializeField] private ProcessorData processorData;
+  [SerializeField] protected ProcessorData processorData;
   private Coroutine processingRoutine;
   protected bool Processing { get => processingRoutine != null; }
 
-  public void StartProcessing(ItemContainer container) {
+  public virtual void StartProcessing(ItemContainer container) {
     if (processingRoutine == null && container != null) {
       processingRoutine = StartCoroutine(Process(container));
       Debug.Log("Processor " + name + " started");
     }
   }
 
-  public void StopProcessing() {
+  public virtual void StopProcessing() {
     if (processingRoutine != null) {
       StopCoroutine(processingRoutine);
       processingRoutine = null;
