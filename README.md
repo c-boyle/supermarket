@@ -3,6 +3,18 @@ An online co-op game where you run a supermarket with your friends in different 
 
 # Screenshots & Videos
 
+### Gameplay video
+https://github.com/c-boyle/supermarket/assets/62191940/9f83fec9-5560-4d80-ae49-e21098f0f638
+
+### Selecting an item
+![SupermarketSelecting](https://github.com/c-boyle/supermarket/assets/62191940/dd3f6c8b-0dda-4568-bc7f-ac18892fb6f4)
+
+### Moving a baking rack
+![supermarketmovingrack](https://github.com/c-boyle/supermarket/assets/62191940/d8a9efe8-e452-4afc-8cd4-c54772de5c08)
+
+### Waiting for the oven
+![image](https://github.com/c-boyle/supermarket/assets/62191940/21e5a927-3620-4fa1-9dae-24a3d8ba9b1f)
+
 # Built with
 - [Unity](https://unity.com/)
 - [Unity Netcode](https://unity.com/products/netcode)
